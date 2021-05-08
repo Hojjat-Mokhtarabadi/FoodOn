@@ -4,7 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'package:foodon/src/presentation/ui/pages/foods_list/foods_list.dart';
 
 import '../../../../../constants.dart';
-import 'dummy data.dart';
+import '../../../utils/dummy data.dart';
 
 const double kSliverListTopDownPadding = 20.0;
 
@@ -18,7 +18,7 @@ class _HomeBodySliverState extends State<HomeBodySliver> {
   Widget build(BuildContext context) {
     return CustomScrollView(
       //shrinkWrap: true,
-      physics: BouncingScrollPhysics(),
+      //physics: BouncingScrollPhysics(),
       slivers: [
         SliverToBoxAdapter(
           child: Padding(

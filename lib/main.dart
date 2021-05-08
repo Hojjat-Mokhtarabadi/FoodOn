@@ -32,7 +32,8 @@ class _MyAppState extends State<MyApp> {
           fontFamily: 'Vazir',
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        home: MainMenu(),
+        home:
+            Directionality(textDirection: TextDirection.rtl, child: MainMenu()),
         initialRoute: '/',
         routes: {
           '/home': (context) => HomePage(),

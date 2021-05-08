@@ -10,3 +10,5 @@ enum CategoryItemsEnum {
   preFood,
   snack
 }
+
+enum ImageAddresses { background, adjust, logo, notification, drawer }

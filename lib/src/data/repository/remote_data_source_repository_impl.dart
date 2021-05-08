@@ -1,5 +1,7 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:foodon/core/exception/exceptions.dart';
+import 'package:foodon/core/errors/exceptions.dart';
+import 'package:foodon/core/errors/failures.dart';
 import 'package:foodon/core/network_connection/network_connection.dart';
 import 'package:foodon/src/data/data_source/remote_data_source.dart';
 import 'package:foodon/src/data/models/food/food.dart';
@@ -16,32 +18,49 @@ class RemoteDataSourceRepositoryImpl implements RemoteDataSourceRepository {
   });
 
   @override
-  Future<List<Food>> getFoodsByCategory(CategoryRequest params) async {
+  Future<Either<Failure, List<Food>>> getFoodsByCategory(
+      CategoryRequest params) async {
     return await _getSpecifiedFoodsList(
         () => remoteDataSource.getFoodByCategory(params));
   }
 
   @override
-  Future<List<Food>> getPopularFoods() async {
+  Future<Either<Failure, List<Food>>> getPopularFoods() async {
     return await _getSpecifiedFoodsList(
         () => remoteDataSource.getPopularFoods());
   }
 
   @override
-  Future<List<Food>> getSpecialFoods() async {
+  Future<Either<Failure, List<Food>>> getSpecialFoods() async {
     return await _getSpecifiedFoodsList(
         () => remoteDataSource.getSpecialFoods());
   }
 
-  Future<List<Food>> _getSpecifiedFoodsList(
+  Future<Either<Failure, List<Food>>> _getSpecifiedFoodsList(
       Future<FoodsList> Function() requestFunction) async {
     if (await networkConnection.isConnected) {
       try {
         final result = await requestFunction();
-        return result.foodsList.toList();
+        return Right(result.foodsList.toList());
       } on ServerException {
-        throw ServerException();
+        return Left(ServerFailure());
       }
+    } else {
+      return Left(NoConnectionFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, Food>> getFoodDetails(int foodId) async {
+    if (await networkConnection.isConnected) {
+      try {
+        final result = await remoteDataSource.getFoodDetails(foodId);
+        return Right(result);
+      } on ServerException {
+        return Left(ServerFailure());
+      }
+    } else {
+      return Left(NoConnectionFailure());
     }
   }
 }

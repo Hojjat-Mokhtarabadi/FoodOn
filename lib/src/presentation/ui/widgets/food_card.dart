@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:foodon/src/presentation/ui/pages/details/details_page.dart';
+import 'package:foodon/src/presentation/ui/pages/food_details/details_page.dart';
 
 import '../../../../constants.dart';
 
@@ -43,6 +43,7 @@ class FoodCard extends StatelessWidget {
             textDirection: TextDirection.rtl,
             child: Container(
               width: 150,
+              height: 200,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [

@@ -5,12 +5,12 @@ import 'package:foodon/core/usecases/usecase_base.dart';
 import 'package:foodon/src/data/models/food/food.dart';
 import 'package:foodon/src/domain/repository/remote_data_source_repository.dart';
 
-class GetPopularFoods extends UsecaseBase<List<Food>, NoParams> {
+class GetFoodDetails extends UsecaseBase<Food, int> {
   final RemoteDataSourceRepository repository;
-  GetPopularFoods({@required this.repository});
+  GetFoodDetails({@required this.repository});
 
   @override
-  Future<Either<Failure, List<Food>>> call(NoParams params) async {
-    return await repository.getPopularFoods();
+  Future<Either<Failure, Food>> call(int foodId) async {
+    return await repository.getFoodDetails(foodId);
   }
 }

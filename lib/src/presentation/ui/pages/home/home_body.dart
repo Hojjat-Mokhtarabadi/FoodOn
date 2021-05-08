@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:foodon/src/presentation/utils/enums.dart';
 
 import '../../../../../constants.dart';
 import 'home_body_sliver.dart';
@@ -62,7 +63,7 @@ class _HomeBodyState extends State<HomeBody> {
                         width: 48.0,
                         child: Center(
                           child: SvgPicture.asset(
-                              'assets/images/icons/adjust.svg'),
+                              kImageAddress[ImageAddresses.adjust]),
                         ),
                       ),
                     ),
@@ -76,9 +77,9 @@ class _HomeBodyState extends State<HomeBody> {
             Expanded(
               child: HomeBodySliver(),
             ),
-            SizedBox(
-              height: 8.0,
-            )
+            // SizedBox(
+            //   height: 8.0,
+            // )
           ],
         ),
       ),

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:foodon/constants.dart';
+import 'package:foodon/src/presentation/ui/pages/add/AddPage.dart';
+import 'package:foodon/src/presentation/ui/pages/cart/cart_page.dart';
+import 'package:foodon/src/presentation/ui/pages/favorite/FavoritePage.dart';
 import 'package:foodon/src/presentation/ui/pages/home/home_page.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
@@ -15,7 +18,7 @@ class _MainMenuState extends State<MainMenu> {
   @override
   void initState() {
     super.initState();
-    _controller = PersistentTabController(initialIndex: 3);
+    _controller = PersistentTabController(initialIndex: 0);
   }
 
   @override
@@ -31,46 +34,49 @@ class _MainMenuState extends State<MainMenu> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.blue,
-      body: PersistentTabView(
-        context,
-        controller: _controller,
-        screens: _buildScreens(),
-        items: _navBarsItems(),
-        confineInSafeArea: true,
-        handleAndroidBackButtonPress: true,
-        resizeToAvoidBottomInset: false,
-        stateManagement: true,
-        hideNavigationBarWhenKeyboardShows: true,
-        margin: EdgeInsets.all(0.0),
-        popActionScreens: PopActionScreensType.all,
-        bottomScreenMargin: 53.0,
-        hideNavigationBar: false,
-        decoration: NavBarDecoration(
-          colorBehindNavBar: Colors.white,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(12.0),
-            topRight: Radius.circular(12.0),
-          ),
-          boxShadow: [
-            BoxShadow(color: Colors.black54, blurRadius: 10),
-          ],
+    return PersistentTabView(
+      context,
+      controller: _controller,
+      screens: _buildScreens(),
+      items: _navBarsItems(),
+      confineInSafeArea: true,
+      handleAndroidBackButtonPress: true,
+      resizeToAvoidBottomInset: false,
+      stateManagement: true,
+      hideNavigationBarWhenKeyboardShows: true,
+      margin: EdgeInsets.all(0.0),
+      popActionScreens: PopActionScreensType.all,
+      bottomScreenMargin: 55.0,
+      hideNavigationBar: false,
+      decoration: NavBarDecoration(
+        colorBehindNavBar: Colors.white,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(12.0),
+          topRight: Radius.circular(12.0),
         ),
-        popAllScreensOnTapOfSelectedTab: true,
-        navBarStyle:
-            NavBarStyle.style3, // Choose the nav bar style with this property
+        boxShadow: [
+          BoxShadow(color: Colors.black54, blurRadius: 10),
+        ],
       ),
+      popAllScreensOnTapOfSelectedTab: true,
+      navBarStyle:
+          NavBarStyle.style3, // Choose the nav bar style with this property
     );
   }
 
   List<Widget> _buildScreens() {
-    return [
+    final List<Widget> _screens = [
       HomePage(),
-      HomePage(),
-      HomePage(),
-      HomePage(),
+      FavoritePage(),
+      AddPage(),
+      CartPage(),
     ];
+    return _screens
+        .map((item) => Container(
+              decoration: kBackgroundImageBox,
+              child: item,
+            ))
+        .toList();
   }
 
   List<PersistentBottomNavBarItem> _navBarsItems() {
@@ -108,7 +114,7 @@ class _MainMenuState extends State<MainMenu> {
             initialRoute: '/',
             routes: kRouts,
           )),
-    ];
+    ].reversed.toList();
   }
 
   Map<String, Widget Function(BuildContext context)> kRouts = {

@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:foodon/src/presentation/utils/enums.dart';
 
-import '../../widgets/food_card.dart';
-import 'category_items.dart';
+import '../ui/pages/home/category_items.dart';
+import '../ui/widgets/food_card.dart';
 
 class Dummydata {
   List<Widget> foodsList = [
@@ -57,7 +57,7 @@ class Dummydata {
   ];
 
   List<Widget> categoryList = [
-    //CategoryItems(categoryText: 'کباب', id: CategoryItemsEnum.kebab),
+    CategoryItems(categoryText: 'کباب', id: CategoryItemsEnum.kebab),
     CategoryItems(
       categoryText: 'سیب زمینی',
       id: CategoryItemsEnum.friedPotato,
@@ -78,7 +78,7 @@ class Dummydata {
       categoryText: 'نوشیدنی',
       id: CategoryItemsEnum.beverage,
     ),
-    //CategoryItems(categoryText: 'سالاد', id: CategoryItemsEnum.salad),
+    CategoryItems(categoryText: 'سالاد', id: CategoryItemsEnum.salad),
     CategoryItems(categoryText: 'پیش غذا', id: CategoryItemsEnum.preFood),
     CategoryItems(categoryText: 'سنتی', id: CategoryItemsEnum.traditional),
     CategoryItems(categoryText: 'سرد', id: CategoryItemsEnum.snack),

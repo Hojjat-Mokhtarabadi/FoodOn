@@ -26,6 +26,7 @@ dependencies:
   built_collection: ^5.0.0
   data_connection_checker: ^0.3.4
   persistent_bottom_nav_bar: ^4.0.2
+  dartz: ^0.9.2
 
 dev_dependencies:
   flutter_test:

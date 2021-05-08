@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:html';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -16,8 +15,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final GetSpecialFoods getSpecialFoods;
   final GetPopularFoods getPopularFoods;
 
-  HomeBloc({this.getSpecialFoods, this.getPopularFoods})
-      : super(HomeInitial()) {
+  HomeBloc({
+    @required this.getSpecialFoods,
+    @required this.getPopularFoods,
+  }) : super(HomeInitial()) {
     add(GetHomePageFoods());
   }
 
@@ -29,9 +30,23 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       yield HomePageFoodsLoading();
       final specialFoods = await getSpecialFoods.call(NoParams());
       final popularFoods = await getPopularFoods.call(NoParams());
-      yield HomePageFoodsLoaded(
-        specialfoodsList: specialFoods,
-        popularfoodsList: popularFoods,
+      yield* specialFoods.fold(
+        (failure) async* {
+          yield HomePageFoodsError();
+        },
+        (specialFoodsSuccess) async* {
+          yield* popularFoods.fold(
+            (failure) async* {
+              yield HomePageFoodsError();
+            },
+            (popularFoodsSuccess) async* {
+              yield HomePageFoodsLoaded(
+                specialfoodsList: specialFoodsSuccess,
+                popularfoodsList: popularFoodsSuccess,
+              );
+            },
+          );
+        },
       );
     }
   }
