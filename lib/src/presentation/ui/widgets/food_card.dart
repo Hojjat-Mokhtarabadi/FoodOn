@@ -1,39 +1,39 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:foodon/src/data/models/food/food.dart';
 import 'package:foodon/src/presentation/ui/pages/food_details/details_page.dart';
 
 import '../../../../constants.dart';
 
 class FoodCard extends StatelessWidget {
-  final String foodName;
-  final String price;
-  final String rate;
-  final String off;
-  final String lastPrice;
+  final Food food;
   final String foodPic;
 
   FoodCard({
-    @required this.foodName,
-    @required this.price,
-    @required this.rate,
-    @required this.foodPic,
-    this.off,
-    this.lastPrice,
+    @required this.food,
+    this.foodPic,
   });
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: GestureDetector(
+      child: InkWell(
         onTap: () {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => DetailsPage(),
+              builder: (context) => DetailsPage(
+                id: this.food.id,
+              ),
             ),
           );
         },
+        // style: TextButton.styleFrom(
+        //   padding: EdgeInsets.zero,
+        //   elevation: 0.0,
+        //   textStyle: TextStyle(color: Colors.black),
+        // ),
         child: PhysicalModel(
           color: Colors.white,
           elevation: 5.0,
@@ -95,7 +95,7 @@ class FoodCard extends StatelessWidget {
                                     child: Row(
                                       children: [
                                         Text(
-                                          '${this.rate} ',
+                                          '${this.food.score} ',
                                           style: TextStyle(
                                               fontWeight: FontWeight.w800),
                                         ),
@@ -123,7 +123,7 @@ class FoodCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          this.foodName,
+                          this.food.name,
                           style: TextStyle(
                               fontSize: 15, fontWeight: FontWeight.w500),
                         ),
@@ -136,7 +136,7 @@ class FoodCard extends StatelessWidget {
                             Icon(Icons.add),
                             Spacer(),
                             Text(
-                              this.price,
+                              '${this.food.price}',
                               style: TextStyle(color: kPrimaryColor),
                             ),
                             Text(" تومان"),

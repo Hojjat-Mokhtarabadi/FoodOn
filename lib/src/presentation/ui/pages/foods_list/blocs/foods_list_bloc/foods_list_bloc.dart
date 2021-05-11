@@ -11,6 +11,8 @@ import 'package:foodon/src/domain/usecases/get_popular_foods.dart';
 import 'package:foodon/src/domain/usecases/get_special_foods.dart';
 import 'package:meta/meta.dart';
 
+import '../../../../../../../constants.dart';
+
 part 'foods_list_event.dart';
 part 'foods_list_state.dart';
 
@@ -44,7 +46,11 @@ class FoodsListBloc extends Bloc<FoodsListEvent, FoodsListState> {
     final result = await callFunction();
     yield* result.fold(
       (failure) async* {
-        yield FoodsListError();
+        if (failure is ServerFailure) {
+          yield FoodsListError(message: kServerErrorMsg);
+        } else {
+          yield FoodsListError(message: kNoConnectionMsg);
+        }
       },
       (success) async* {
         yield FoodsListLoaded(foodsList: success);

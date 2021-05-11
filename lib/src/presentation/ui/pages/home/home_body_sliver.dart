@@ -32,7 +32,7 @@ class _HomeBodySliverState extends State<HomeBodySliver> {
           ),
         ),
         SliverToBoxAdapter(child: _buildShowMore('غذاهای محبوب')),
-        buildSliverPadding(),
+        _buildFoodsList(),
         SliverPadding(
           padding: EdgeInsets.only(top: kSliverListTopDownPadding),
           sliver: SliverToBoxAdapter(
@@ -45,7 +45,7 @@ class _HomeBodySliverState extends State<HomeBodySliver> {
           ),
         ),
         SliverToBoxAdapter(child: _buildShowMore('پیشنهاد ویژه')),
-        buildSliverPadding()
+        _buildFoodsList()
       ],
     );
   }
@@ -78,7 +78,7 @@ class _HomeBodySliverState extends State<HomeBodySliver> {
     );
   }
 
-  SliverToBoxAdapter buildSliverPadding() {
+  SliverToBoxAdapter _buildFoodsList() {
     return SliverToBoxAdapter(
       child: Container(
         height: 200,
@@ -86,9 +86,9 @@ class _HomeBodySliverState extends State<HomeBodySliver> {
         child: ListView(
           // shrinkWrap: true,
           scrollDirection: Axis.horizontal,
-          physics: BouncingScrollPhysics(),
+          //physics: BouncingScrollPhysics(),
           padding: EdgeInsets.symmetric(horizontal: 18.0),
-          children: Dummydata().foodsList,
+          children: [],
         ),
       ),
     );

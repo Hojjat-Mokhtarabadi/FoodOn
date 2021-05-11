@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:foodon/constants.dart';
-import 'package:foodon/src/presentation/ui/pages/add/AddPage.dart';
 import 'package:foodon/src/presentation/ui/pages/cart/cart_page.dart';
 import 'package:foodon/src/presentation/ui/pages/favorite/FavoritePage.dart';
 import 'package:foodon/src/presentation/ui/pages/home/home_page.dart';
+import 'package:foodon/src/presentation/ui/pages/sale/AddPage.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class MainMenu extends StatefulWidget {
@@ -68,7 +68,7 @@ class _MainMenuState extends State<MainMenu> {
     final List<Widget> _screens = [
       HomePage(),
       FavoritePage(),
-      AddPage(),
+      SalePage(),
       CartPage(),
     ];
     return _screens
@@ -91,7 +91,7 @@ class _MainMenuState extends State<MainMenu> {
           )),
       PersistentBottomNavBarItem(
           //icon: SvgPicture.asset('assets/images/icons/sale.svg'),
-          icon: Icon(Icons.add, size: 35.0),
+          icon: Icon(FontAwesomeIcons.coffee, size: 25.0),
           activeColorPrimary: kPrimaryColor,
           inactiveColorPrimary: Colors.black87,
           routeAndNavigatorSettings: RouteAndNavigatorSettings(

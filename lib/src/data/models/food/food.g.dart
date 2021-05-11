@@ -22,17 +22,38 @@ class _$FoodSerializer implements StructuredSerializer<Food> {
       serializers.serialize(object.id, specifiedType: const FullType(int)),
       'name',
       serializers.serialize(object.name, specifiedType: const FullType(String)),
-      'detail',
-      serializers.serialize(object.detail,
-          specifiedType: const FullType(String)),
       'price',
       serializers.serialize(object.price,
-          specifiedType: const FullType(String)),
-      'score',
-      serializers.serialize(object.score,
-          specifiedType: const FullType(String)),
+          specifiedType: const FullType(double)),
     ];
-
+    Object value;
+    value = object.detail;
+    if (value != null) {
+      result
+        ..add('detail')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.score;
+    if (value != null) {
+      result
+        ..add('score')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(double)));
+    }
+    value = object.categoryId;
+    if (value != null) {
+      result
+        ..add('category_id')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
+    value = object.category;
+    if (value != null) {
+      result
+        ..add('category')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(Category)));
+    }
     return result;
   }
 
@@ -61,11 +82,19 @@ class _$FoodSerializer implements StructuredSerializer<Food> {
           break;
         case 'price':
           result.price = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+              specifiedType: const FullType(double)) as double;
           break;
         case 'score':
           result.score = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+              specifiedType: const FullType(double)) as double;
+          break;
+        case 'category_id':
+          result.categoryId = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int;
+          break;
+        case 'category':
+          result.category.replace(serializers.deserialize(value,
+              specifiedType: const FullType(Category)) as Category);
           break;
       }
     }
@@ -82,20 +111,29 @@ class _$Food extends Food {
   @override
   final String detail;
   @override
-  final String price;
+  final double price;
   @override
-  final String score;
+  final double score;
+  @override
+  final int categoryId;
+  @override
+  final Category category;
 
   factory _$Food([void Function(FoodBuilder) updates]) =>
       (new FoodBuilder()..update(updates)).build();
 
-  _$Food._({this.id, this.name, this.detail, this.price, this.score})
+  _$Food._(
+      {this.id,
+      this.name,
+      this.detail,
+      this.price,
+      this.score,
+      this.categoryId,
+      this.category})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(id, 'Food', 'id');
     BuiltValueNullFieldError.checkNotNull(name, 'Food', 'name');
-    BuiltValueNullFieldError.checkNotNull(detail, 'Food', 'detail');
     BuiltValueNullFieldError.checkNotNull(price, 'Food', 'price');
-    BuiltValueNullFieldError.checkNotNull(score, 'Food', 'score');
   }
 
   @override
@@ -113,15 +151,23 @@ class _$Food extends Food {
         name == other.name &&
         detail == other.detail &&
         price == other.price &&
-        score == other.score;
+        score == other.score &&
+        categoryId == other.categoryId &&
+        category == other.category;
   }
 
   @override
   int get hashCode {
     return $jf($jc(
-        $jc($jc($jc($jc(0, id.hashCode), name.hashCode), detail.hashCode),
-            price.hashCode),
-        score.hashCode));
+        $jc(
+            $jc(
+                $jc(
+                    $jc($jc($jc(0, id.hashCode), name.hashCode),
+                        detail.hashCode),
+                    price.hashCode),
+                score.hashCode),
+            categoryId.hashCode),
+        category.hashCode));
   }
 
   @override
@@ -131,7 +177,9 @@ class _$Food extends Food {
           ..add('name', name)
           ..add('detail', detail)
           ..add('price', price)
-          ..add('score', score))
+          ..add('score', score)
+          ..add('categoryId', categoryId)
+          ..add('category', category))
         .toString();
   }
 }
@@ -151,13 +199,21 @@ class FoodBuilder implements Builder<Food, FoodBuilder> {
   String get detail => _$this._detail;
   set detail(String detail) => _$this._detail = detail;
 
-  String _price;
-  String get price => _$this._price;
-  set price(String price) => _$this._price = price;
+  double _price;
+  double get price => _$this._price;
+  set price(double price) => _$this._price = price;
 
-  String _score;
-  String get score => _$this._score;
-  set score(String score) => _$this._score = score;
+  double _score;
+  double get score => _$this._score;
+  set score(double score) => _$this._score = score;
+
+  int _categoryId;
+  int get categoryId => _$this._categoryId;
+  set categoryId(int categoryId) => _$this._categoryId = categoryId;
+
+  CategoryBuilder _category;
+  CategoryBuilder get category => _$this._category ??= new CategoryBuilder();
+  set category(CategoryBuilder category) => _$this._category = category;
 
   FoodBuilder();
 
@@ -169,6 +225,8 @@ class FoodBuilder implements Builder<Food, FoodBuilder> {
       _detail = $v.detail;
       _price = $v.price;
       _score = $v.score;
+      _categoryId = $v.categoryId;
+      _category = $v.category?.toBuilder();
       _$v = null;
     }
     return this;
@@ -187,16 +245,29 @@ class FoodBuilder implements Builder<Food, FoodBuilder> {
 
   @override
   _$Food build() {
-    final _$result = _$v ??
-        new _$Food._(
-            id: BuiltValueNullFieldError.checkNotNull(id, 'Food', 'id'),
-            name: BuiltValueNullFieldError.checkNotNull(name, 'Food', 'name'),
-            detail:
-                BuiltValueNullFieldError.checkNotNull(detail, 'Food', 'detail'),
-            price:
-                BuiltValueNullFieldError.checkNotNull(price, 'Food', 'price'),
-            score:
-                BuiltValueNullFieldError.checkNotNull(score, 'Food', 'score'));
+    _$Food _$result;
+    try {
+      _$result = _$v ??
+          new _$Food._(
+              id: BuiltValueNullFieldError.checkNotNull(id, 'Food', 'id'),
+              name: BuiltValueNullFieldError.checkNotNull(name, 'Food', 'name'),
+              detail: detail,
+              price:
+                  BuiltValueNullFieldError.checkNotNull(price, 'Food', 'price'),
+              score: score,
+              categoryId: categoryId,
+              category: _category?.build());
+    } catch (_) {
+      String _$failedField;
+      try {
+        _$failedField = 'category';
+        _category?.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            'Food', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }

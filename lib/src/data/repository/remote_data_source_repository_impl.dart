@@ -4,6 +4,7 @@ import 'package:foodon/core/errors/exceptions.dart';
 import 'package:foodon/core/errors/failures.dart';
 import 'package:foodon/core/network_connection/network_connection.dart';
 import 'package:foodon/src/data/data_source/remote_data_source.dart';
+import 'package:foodon/src/data/models/category/category.dart' as ct;
 import 'package:foodon/src/data/models/food/food.dart';
 import 'package:foodon/src/data/models/food/foods_list.dart';
 import 'package:foodon/src/domain/repository/remote_data_source_repository.dart';
@@ -12,6 +13,7 @@ import 'package:foodon/src/domain/usecases/get_foods_by_category.dart';
 class RemoteDataSourceRepositoryImpl implements RemoteDataSourceRepository {
   final RemoteDataSource remoteDataSource;
   final NetworkConnection networkConnection;
+
   RemoteDataSourceRepositoryImpl({
     @required this.remoteDataSource,
     @required this.networkConnection,
@@ -43,6 +45,7 @@ class RemoteDataSourceRepositoryImpl implements RemoteDataSourceRepository {
         final result = await requestFunction();
         return Right(result.foodsList.toList());
       } on ServerException {
+        print('here repo');
         return Left(ServerFailure());
       }
     } else {
@@ -56,6 +59,20 @@ class RemoteDataSourceRepositoryImpl implements RemoteDataSourceRepository {
       try {
         final result = await remoteDataSource.getFoodDetails(foodId);
         return Right(result);
+      } on ServerException {
+        return Left(ServerFailure());
+      }
+    } else {
+      return Left(NoConnectionFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<ct.Category>>> getCategoriesList() async {
+    if (await networkConnection.isConnected) {
+      try {
+        final result = await remoteDataSource.getCategoriesList();
+        return Right(result.categoriesList.toList());
       } on ServerException {
         return Left(ServerFailure());
       }

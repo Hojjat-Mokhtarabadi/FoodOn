@@ -20,12 +20,12 @@ abstract class FoodsList implements Built<FoodsList, FoodsListBuilder> {
   factory FoodsList([updates(FoodsListBuilder b)]) = _$FoodsList;
 
   String toJson() {
-    return json.encode(serializers.serializeWith(FoodsList.serializer, this));
+    return jsonEncode(serializers.serializeWith(FoodsList.serializer, this));
   }
 
   static FoodsList fromJson(String jsonString) {
     return serializers.deserializeWith(
-        FoodsList.serializer, json.decode(jsonString));
+        FoodsList.serializer, jsonDecode(jsonString));
   }
 
   static Serializer<FoodsList> get serializer => _$foodsListSerializer;

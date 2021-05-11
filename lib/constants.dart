@@ -5,6 +5,10 @@ const Color kPrimaryColor = Color(0xFF5EBA93);
 const Color kDarkerPrimaryColor = Color(0xFF5EBA93);
 const Color kAccentColor = Color(0xFF26283A);
 const Color kShadowColor = Color(0x88000000);
+//--------------------------------------------------------
+
+const String kServerErrorMsg = 'خطایی از سرور رخ داده است';
+const String kNoConnectionMsg = 'اتصال خود را چک کنید';
 
 //---------------------------------------------------------
 //
@@ -15,10 +19,9 @@ const TextStyle kFirstGreenTextStyle =
 
 //---------------------------------------------------------
 
-BoxDecoration kBackgroundImageBox = BoxDecoration(
+const BoxDecoration kBackgroundImageBox = BoxDecoration(
   image: DecorationImage(
-      image: AssetImage(kImageAddress[ImageAddresses.background]),
-      fit: BoxFit.cover),
+      image: AssetImage('assets/images/icons_png/bb.png'), fit: BoxFit.cover),
 );
 //--------------------------------------------------------
 
@@ -42,5 +45,7 @@ const Map<ImageAddresses, String> kImageAddress = {
   ImageAddresses.adjust: 'assets/images/icons/adjust.svg',
   ImageAddresses.logo: 'assets/images/icons/logo up.svg',
   ImageAddresses.drawer: 'assets/images/icons/hamber_drawer.svg',
-  ImageAddresses.notification: 'assets/images/icons/notifications_active.svg'
+  ImageAddresses.notification: 'assets/images/icons/notifications_active.svg',
+  ImageAddresses.add: 'assets/images/icons_png/plus-01.png',
+  ImageAddresses.minus: 'assets/images/icons_png/mines-01.png',
 };

@@ -2,6 +2,7 @@ import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:foodon/core/network_connection/network_connection.dart';
 import 'package:foodon/src/data/data_source/remote_data_source.dart';
 import 'package:foodon/src/data/repository/remote_data_source_repository_impl.dart';
+import 'package:foodon/src/domain/usecases/get_categories_list.dart';
 import 'package:foodon/src/domain/usecases/get_food_details.dart';
 import 'package:foodon/src/domain/usecases/get_foods_by_category.dart';
 import 'package:foodon/src/domain/usecases/get_popular_foods.dart';
@@ -13,12 +14,14 @@ import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 
 final locator = GetIt.instance;
-const kBaseUrl = '';
+const kBaseUrl = "bb896a6ba08d.ngrok.io";
 
 void setupLocator() {
   ///  Blocs
-  locator.registerFactory(
-      () => HomeBloc(getPopularFoods: locator(), getSpecialFoods: locator()));
+  locator.registerFactory(() => HomeBloc(
+      getPopularFoods: locator(),
+      getSpecialFoods: locator(),
+      getCategoriesList: locator()));
   locator.registerFactory(() => FoodsListBloc(
       getFoodsByCategory: locator(),
       getSpecialFoods: locator(),
@@ -34,6 +37,8 @@ void setupLocator() {
       repository: locator<RemoteDataSourceRepositoryImpl>()));
   locator.registerLazySingleton(() =>
       GetFoodDetails(repository: locator<RemoteDataSourceRepositoryImpl>()));
+  locator.registerLazySingleton(() =>
+      GetCategoriesList(repository: locator<RemoteDataSourceRepositoryImpl>()));
 
   ///  Repository
   locator.registerLazySingleton(() => RemoteDataSourceRepositoryImpl(

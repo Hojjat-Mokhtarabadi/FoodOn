@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
+import 'package:foodon/src/data/models/category/category.dart';
 
 import '../serializers.dart';
 
@@ -13,9 +14,16 @@ abstract class Food implements Built<Food, FoodBuilder> {
   // fields go here
   int get id;
   String get name;
+  @nullable
   String get detail;
-  String get price;
-  String get score;
+  double get price;
+  @nullable
+  double get score;
+  @nullable
+  @BuiltValueField(wireName: 'category_id')
+  int get categoryId;
+  @nullable
+  Category get category;
 
   Food._();
 

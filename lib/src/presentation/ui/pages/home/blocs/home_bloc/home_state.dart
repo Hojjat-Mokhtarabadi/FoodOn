@@ -8,19 +8,25 @@ abstract class HomeState extends Equatable {
 
 class HomeInitial extends HomeState {}
 
-class HomePageFoodsLoading extends HomeState {}
+class HomeLoading extends HomeState {}
 
-class HomePageFoodsLoaded extends HomeState {
-  final List<Food> specialfoodsList;
-  final List<Food> popularfoodsList;
+class HomeLoaded extends HomeState {
+  final List<Food> specialFoodsList;
+  final List<Food> popularFoodsList;
 
-  HomePageFoodsLoaded({
-    this.specialfoodsList,
-    this.popularfoodsList,
+  HomeLoaded({
+    this.specialFoodsList,
+    this.popularFoodsList,
   });
 
   @override
-  List<Object> get props => [specialfoodsList, popularfoodsList];
+  List<Object> get props => [specialFoodsList, popularFoodsList];
 }
 
-class HomePageFoodsError extends HomeState {}
+class HomeError extends HomeState {
+  final String message;
+  HomeError({@required this.message});
+
+  @override
+  List<Object> get props => [message];
+}

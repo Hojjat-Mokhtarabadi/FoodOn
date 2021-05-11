@@ -7,8 +7,13 @@ part of serializers;
 // **************************************************************************
 
 Serializers _$serializers = (new Serializers().toBuilder()
+      ..add(CategoriesList.serializer)
+      ..add(Category.serializer)
       ..add(Food.serializer)
       ..add(FoodsList.serializer)
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(Category)]),
+          () => new ListBuilder<Category>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(Food)]),
           () => new ListBuilder<Food>()))

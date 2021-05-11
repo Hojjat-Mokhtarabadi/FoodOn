@@ -11,4 +11,12 @@ enum CategoryItemsEnum {
   snack
 }
 
-enum ImageAddresses { background, adjust, logo, notification, drawer }
+enum ImageAddresses {
+  background,
+  adjust,
+  logo,
+  notification,
+  drawer,
+  add,
+  minus
+}

@@ -1,22 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:foodon/constants.dart';
+import 'package:foodon/src/presentation/utils/enums.dart';
 
 class DetailsPage extends StatefulWidget {
-  final double price;
-  final double name;
-  final double score;
-  final double description;
-  final double image;
+  final int id;
 
   const DetailsPage({
     Key key,
-    @required this.price,
-    @required this.name,
-    @required this.score,
-    @required this.description,
-    @required this.image,
+    @required this.id,
   }) : super(key: key);
   @override
   _DetailsPageState createState() => _DetailsPageState();
@@ -66,7 +58,11 @@ class _DetailsPageState extends State<DetailsPage> {
                 Row(
                   children: [
                     IconButton(
-                      icon: Icon(Icons.add),
+                      //icon: Icon(Icons.add),
+                      icon: Image.asset(
+                        kImageAddress[ImageAddresses.add],
+                        width: 30.0,
+                      ),
                       constraints: BoxConstraints(),
                       padding: EdgeInsets.symmetric(horizontal: 3.0),
                       splashRadius: 17.0,
@@ -84,9 +80,9 @@ class _DetailsPageState extends State<DetailsPage> {
                       ),
                     ),
                     IconButton(
-                      icon: Icon(
-                        FontAwesomeIcons.minus,
-                        size: 18.0,
+                      icon: Image.asset(
+                        kImageAddress[ImageAddresses.minus],
+                        width: 30.0,
                       ),
                       constraints: BoxConstraints(),
                       padding: EdgeInsets.symmetric(horizontal: 3.0),
