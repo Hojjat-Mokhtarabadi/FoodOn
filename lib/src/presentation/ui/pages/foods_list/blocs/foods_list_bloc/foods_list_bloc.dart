@@ -44,10 +44,13 @@ class FoodsListBloc extends Bloc<FoodsListEvent, FoodsListState> {
       Future<Either<Failure, List<Food>>> Function() callFunction) async* {
     yield FoodsListLoading();
     final result = await callFunction();
+    print(result);
     yield* result.fold(
       (failure) async* {
         if (failure is ServerFailure) {
           yield FoodsListError(message: kServerErrorMsg);
+        } else if (failure is NotFoundFailure) {
+          yield FoodsListError(message: kNotFoundMsg);
         } else {
           yield FoodsListError(message: kNoConnectionMsg);
         }

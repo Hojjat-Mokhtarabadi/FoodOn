@@ -9,6 +9,7 @@ const Color kShadowColor = Color(0x88000000);
 
 const String kServerErrorMsg = 'خطایی از سرور رخ داده است';
 const String kNoConnectionMsg = 'اتصال خود را چک کنید';
+const String kNotFoundMsg = 'غذای مورد نظر یافت نشد';
 
 //---------------------------------------------------------
 //
@@ -25,7 +26,7 @@ const BoxDecoration kBackgroundImageBox = BoxDecoration(
 );
 //--------------------------------------------------------
 
-const Map<CategoryItemsEnum, String> kIconsAddress = {
+const Map<CategoryItemsEnum, String> kCategoryIconsAddress = {
   CategoryItemsEnum.kebab: 'assets/images/icons_png/kebab.png',
   CategoryItemsEnum.beverage: 'assets/images/icons_png/coka.png',
   CategoryItemsEnum.burger: 'assets/images/icons_png/burger.png',
@@ -40,7 +41,7 @@ const Map<CategoryItemsEnum, String> kIconsAddress = {
 
 //----------------------------------------------------------
 
-const Map<ImageAddresses, String> kImageAddress = {
+const Map<ImageAddresses, String> kImagesAddress = {
   ImageAddresses.background: 'assets/images/icons_png/bb.png',
   ImageAddresses.adjust: 'assets/images/icons/adjust.svg',
   ImageAddresses.logo: 'assets/images/icons/logo up.svg',
@@ -48,4 +49,16 @@ const Map<ImageAddresses, String> kImageAddress = {
   ImageAddresses.notification: 'assets/images/icons/notifications_active.svg',
   ImageAddresses.add: 'assets/images/icons_png/plus-01.png',
   ImageAddresses.minus: 'assets/images/icons_png/mines-01.png',
+  ImageAddresses.background2: 'assets/images/icons_png/bh.png'
+};
+
+//----------------------------------------------------------
+
+const Map<ProfileIcons, String> kProfileAddresses = {
+  ProfileIcons.activeOrders: 'assets/images/profile_icons/act_order.png',
+  ProfileIcons.editProfile: 'assets/images/profile_icons/eprof.png',
+  ProfileIcons.exit: 'assets/images/profile_icons/exit.png',
+  ProfileIcons.myOrders: 'assets/images/profile_icons/my_order.png',
+  ProfileIcons.faq: 'assets/images/profile_icons/qa.png',
+  ProfileIcons.wallet: 'assets/images/profile_icons/wallet.png'
 };

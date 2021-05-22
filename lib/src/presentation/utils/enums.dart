@@ -18,5 +18,15 @@ enum ImageAddresses {
   notification,
   drawer,
   add,
-  minus
+  minus,
+  background2,
+}
+
+enum ProfileIcons {
+  activeOrders,
+  editProfile,
+  exit,
+  myOrders,
+  faq,
+  wallet,
 }

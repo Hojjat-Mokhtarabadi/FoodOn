@@ -50,7 +50,7 @@ class TopSearchBar extends StatelessWidget {
               height: 48.0,
               width: 48.0,
               child: Center(
-                child: SvgPicture.asset(kImageAddress[ImageAddresses.adjust]),
+                child: SvgPicture.asset(kImagesAddress[ImageAddresses.adjust]),
               ),
             ),
           ),

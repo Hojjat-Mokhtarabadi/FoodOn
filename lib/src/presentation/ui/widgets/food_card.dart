@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:foodon/src/data/models/food/food.dart';
+import 'package:foodon/src/presentation/ui/pages/food_details/blocs/food_details_bloc/food_details_bloc.dart';
 import 'package:foodon/src/presentation/ui/pages/food_details/details_page.dart';
+import 'package:foodon/src/presentation/utils/enums.dart';
 
 import '../../../../constants.dart';
 
@@ -22,12 +25,12 @@ class FoodCard extends StatelessWidget {
         onTap: () {
           Navigator.push(
             context,
-            MaterialPageRoute(
-              builder: (context) => DetailsPage(
-                id: this.food.id,
-              ),
+            CupertinoPageRoute(
+              builder: (context) => DetailsPage(),
             ),
           );
+          BlocProvider.of<FoodDetailsBloc>(context)
+              .add(GetFoodDetailsEvent(foodId: this.food.id));
         },
         // style: TextButton.styleFrom(
         //   padding: EdgeInsets.zero,
@@ -133,7 +136,10 @@ class FoodCard extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             // SvgPicture.asset('assets/images/icons/plus.svg'),
-                            Icon(Icons.add),
+                            Image.asset(
+                              kImagesAddress[ImageAddresses.add],
+                              width: 25.0,
+                            ),
                             Spacer(),
                             Text(
                               '${this.food.price}',

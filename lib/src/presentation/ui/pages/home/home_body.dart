@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodon/src/data/models/food/food.dart';
@@ -5,6 +6,7 @@ import 'package:foodon/src/presentation/ui/pages/foods_list/blocs/foods_list_blo
 import 'package:foodon/src/presentation/ui/pages/foods_list/foods_list.dart';
 import 'package:foodon/src/presentation/ui/pages/home/blocs/home_bloc/home_bloc.dart';
 import 'package:foodon/src/presentation/ui/pages/home/top_search_bar.dart';
+import 'package:foodon/src/presentation/ui/widgets/errors_alert.dart';
 import 'package:foodon/src/presentation/ui/widgets/food_card.dart';
 import 'package:foodon/src/presentation/utils/dummy%20data.dart';
 
@@ -92,24 +94,14 @@ class _HomeBodyState extends State<HomeBody> {
       },
       listener: (context, state) {
         if (state is HomeError) {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                content: Text(state.message),
-                actions: <Widget>[
-                  TextButton(
-                    child: Text('تلاش دوباره'),
-                    onPressed: () {
-                      BlocProvider.of<HomeBloc>(context)
-                          .add(GetHomeItemsEvent());
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ],
-              );
-            },
-          );
+          //Container();
+          showAlertDialog(
+              context: context,
+              msg: state.message,
+              bloc: (c) {
+                BlocProvider.of<HomeBloc>(c).add(GetHomeItemsEvent());
+                Navigator.of(c).pop();
+              });
         }
       },
     );
@@ -123,9 +115,10 @@ class _HomeBodyState extends State<HomeBody> {
         onTap: () {
           Navigator.push(
             context,
-            MaterialPageRoute(
+            CupertinoPageRoute(
               builder: (context) => FoodsListPage(
                 blocEvent: bloc,
+                topHeaderName: txt,
               ),
             ),
           );

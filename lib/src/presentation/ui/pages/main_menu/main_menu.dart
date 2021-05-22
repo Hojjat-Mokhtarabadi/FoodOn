@@ -4,8 +4,10 @@ import 'package:foodon/constants.dart';
 import 'package:foodon/src/presentation/ui/pages/cart/cart_page.dart';
 import 'package:foodon/src/presentation/ui/pages/favorite/FavoritePage.dart';
 import 'package:foodon/src/presentation/ui/pages/home/home_page.dart';
-import 'package:foodon/src/presentation/ui/pages/sale/AddPage.dart';
+import 'package:foodon/src/presentation/ui/pages/profile/profile_page.dart';
+import 'package:foodon/src/presentation/utils/providers/bottom_nav_state.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:provider/provider.dart';
 
 class MainMenu extends StatefulWidget {
   @override
@@ -27,40 +29,43 @@ class _MainMenuState extends State<MainMenu> {
     _controller.dispose();
   }
 
-  // Image.asset(
-  // 'assets/images/icons_png/bb.png',
-  // fit: BoxFit.cover,
-  // ),
-
   @override
   Widget build(BuildContext context) {
-    return PersistentTabView(
-      context,
-      controller: _controller,
-      screens: _buildScreens(),
-      items: _navBarsItems(),
-      confineInSafeArea: true,
-      handleAndroidBackButtonPress: true,
-      resizeToAvoidBottomInset: false,
-      stateManagement: true,
-      hideNavigationBarWhenKeyboardShows: true,
-      margin: EdgeInsets.all(0.0),
-      popActionScreens: PopActionScreensType.all,
-      bottomScreenMargin: 55.0,
-      hideNavigationBar: false,
-      decoration: NavBarDecoration(
-        colorBehindNavBar: Colors.white,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(12.0),
-          topRight: Radius.circular(12.0),
+    final bottomNavProv = Provider.of<BottomNavStateProvider>(context);
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: PersistentTabView(
+        context,
+        controller: _controller,
+        screens: _buildScreens(),
+        items: _navBarsItems(),
+        confineInSafeArea: true,
+        handleAndroidBackButtonPress: true,
+        resizeToAvoidBottomInset: false,
+        stateManagement: true,
+        hideNavigationBarWhenKeyboardShows: true,
+        margin: EdgeInsets.all(0.0),
+        popActionScreens: PopActionScreensType.all,
+        bottomScreenMargin: 55.0,
+        hideNavigationBar: bottomNavProv.shouldHide,
+        decoration: NavBarDecoration(
+          colorBehindNavBar: Colors.white,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(12.0),
+            topRight: Radius.circular(12.0),
+          ),
+          boxShadow: [
+            BoxShadow(
+                color: Colors.black54,
+                blurRadius: 15,
+                spreadRadius: 0.5,
+                offset: Offset(3.0, 3.0)),
+          ],
         ),
-        boxShadow: [
-          BoxShadow(color: Colors.black54, blurRadius: 10),
-        ],
+        popAllScreensOnTapOfSelectedTab: true,
+        navBarStyle:
+            NavBarStyle.style3, // Choose the nav bar style with this property
       ),
-      popAllScreensOnTapOfSelectedTab: true,
-      navBarStyle:
-          NavBarStyle.style3, // Choose the nav bar style with this property
     );
   }
 
@@ -68,8 +73,8 @@ class _MainMenuState extends State<MainMenu> {
     final List<Widget> _screens = [
       HomePage(),
       FavoritePage(),
-      SalePage(),
       CartPage(),
+      ProfilePage(),
     ];
     return _screens
         .map((item) => Container(
@@ -82,7 +87,8 @@ class _MainMenuState extends State<MainMenu> {
   List<PersistentBottomNavBarItem> _navBarsItems() {
     return [
       PersistentBottomNavBarItem(
-          icon: Icon(FontAwesomeIcons.shoppingCart, size: 22.0),
+          //icon: SvgPicture.asset('assets/images/icons/sale.svg'),
+          icon: Icon(FontAwesomeIcons.solidUser, size: 25.0),
           activeColorPrimary: kPrimaryColor,
           inactiveColorPrimary: Colors.black87,
           routeAndNavigatorSettings: RouteAndNavigatorSettings(
@@ -90,8 +96,7 @@ class _MainMenuState extends State<MainMenu> {
             routes: kRouts,
           )),
       PersistentBottomNavBarItem(
-          //icon: SvgPicture.asset('assets/images/icons/sale.svg'),
-          icon: Icon(FontAwesomeIcons.coffee, size: 25.0),
+          icon: Icon(FontAwesomeIcons.shoppingCart, size: 22.0),
           activeColorPrimary: kPrimaryColor,
           inactiveColorPrimary: Colors.black87,
           routeAndNavigatorSettings: RouteAndNavigatorSettings(
@@ -120,8 +125,8 @@ class _MainMenuState extends State<MainMenu> {
   Map<String, Widget Function(BuildContext context)> kRouts = {
     '/home': (context) => HomePage(),
     '/favorite': (context) => HomePage(),
-    '/sale': (context) => HomePage(),
     '/cart': (context) => HomePage(),
+    '/sale': (context) => HomePage(),
   };
 }
 

@@ -1,145 +1,157 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodon/constants.dart';
-import 'package:foodon/src/presentation/utils/enums.dart';
+import 'package:foodon/size_config.dart';
+import 'package:foodon/src/presentation/ui/pages/food_details/blocs/food_details_bloc/food_details_bloc.dart';
+import 'package:foodon/src/presentation/ui/widgets/errors_alert.dart';
+import 'package:foodon/src/presentation/ui/widgets/order_count_row.dart';
 
 class DetailsPage extends StatefulWidget {
-  final int id;
-
-  const DetailsPage({
-    Key key,
-    @required this.id,
-  }) : super(key: key);
   @override
   _DetailsPageState createState() => _DetailsPageState();
 }
 
 class _DetailsPageState extends State<DetailsPage> {
-  int orderNum = 1;
+  int _foodId;
+  int _orderNum;
   @override
   Widget build(BuildContext context) {
+    SizeConfig(context: context);
     return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Container(
-            decoration: kBackgroundImageBox,
-            padding: EdgeInsets.symmetric(horizontal: 35.0, vertical: 30.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(10.0),
-                  child: Image.asset(
-                    'assets/images/food_images/burger.jpg',
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                SizedBox(height: 15.0),
-                Row(
+      // resizeToAvoidBottomInset: false,
+      body: Container(
+        decoration: kBackgroundImageBox,
+        child: SafeArea(
+          child: BlocConsumer(
+            bloc: BlocProvider.of<FoodDetailsBloc>(context),
+            builder: (context, state) {
+              if (state is FoodDetailsLoaded) {
+                _foodId = state.food.id;
+                return Column(
+                  //mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(
-                      'تریپل برگر مخصوص',
-                      style: kHeadingTextStyle.copyWith(
-                          fontSize: 15.0, fontWeight: FontWeight.w800),
+                    Expanded(
+                      child: ListView(
+                        // shrinkWrap: true,
+                        padding:
+                            EdgeInsets.only(left: 35.0, right: 35.0, top: 35.0),
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(10.0),
+                            child: Image.asset(
+                              'assets/images/food_images/burger.jpg',
+                              fit: BoxFit.cover,
+                              width: SizeConfig.width * 0.8,
+                              height: SizeConfig.height * 0.29,
+                            ),
+                          ),
+                          SizedBox(height: 15.0),
+                          Row(
+                            children: [
+                              Text(
+                                state.food.name,
+                                style: kHeadingTextStyle.copyWith(
+                                    fontSize: 15.0,
+                                    fontWeight: FontWeight.w800),
+                              ),
+                              Spacer(),
+                              Text(
+                                '${state.food.score}',
+                                style: kHeadingTextStyle.copyWith(
+                                    fontSize: 15.0,
+                                    fontWeight: FontWeight.w800),
+                              ),
+                              Icon(
+                                Icons.star,
+                                color: Colors.yellow,
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 30.0),
+                          Row(
+                            children: [
+                              OrdersCountRow(
+                                foodId: state.food.id,
+                                orderNumFunction: (num) {
+                                  _orderNum = num;
+                                },
+                              ),
+                              Spacer(),
+                              Text(
+                                '${state.food.price}',
+                                style: kHeadingTextStyle.copyWith(
+                                    color: kPrimaryColor),
+                              ),
+                              Text(
+                                ' تومان',
+                                style: kHeadingTextStyle,
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 25.0,
+                          ),
+                          Divider(
+                            color: Colors.black,
+                            thickness: 0.4,
+                          ),
+                          SizedBox(height: 10.0),
+                          Text('${state.food.detail}'),
+                          // Spacer(
+                          //   flex: 2,
+                          // ),
+                          SizedBox(
+                            height: 60.0,
+                          ),
+                        ],
+                      ),
                     ),
-                    Spacer(),
-                    Text(
-                      '4.5',
-                      style: kHeadingTextStyle.copyWith(
-                          fontSize: 15.0, fontWeight: FontWeight.w800),
+                    //Spacer(),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: TextButton(
+                          onPressed: () {
+                            //BlocProvider.of<PostOrderBloc>(context).add(PostNewOrderEvent(order: new Order()));
+                          },
+                          style: TextButton.styleFrom(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 40.0, vertical: 8.0),
+                            backgroundColor: kDarkerPrimaryColor,
+                            elevation: 4.0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8)),
+                            ),
+                          ),
+                          child: Text(
+                            'افزودن به سبد خرید ',
+                            style:
+                                kHeadingTextStyle.copyWith(color: Colors.white),
+                          )),
                     ),
-                    Icon(
-                      Icons.star,
-                      color: Colors.yellow,
-                    ),
+                    SizedBox(height: 20.0)
                   ],
-                ),
-                SizedBox(height: 45.0),
-                Row(
-                  children: [
-                    IconButton(
-                      //icon: Icon(Icons.add),
-                      icon: Image.asset(
-                        kImageAddress[ImageAddresses.add],
-                        width: 30.0,
-                      ),
-                      constraints: BoxConstraints(),
-                      padding: EdgeInsets.symmetric(horizontal: 3.0),
-                      splashRadius: 17.0,
-                      onPressed: () {
-                        setState(() {
-                          orderNum++;
-                        });
-                      },
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 7.0),
-                      child: Text(
-                        '$orderNum',
-                        style: kHeadingTextStyle.copyWith(fontSize: 17.0),
-                      ),
-                    ),
-                    IconButton(
-                      icon: Image.asset(
-                        kImageAddress[ImageAddresses.minus],
-                        width: 30.0,
-                      ),
-                      constraints: BoxConstraints(),
-                      padding: EdgeInsets.symmetric(horizontal: 3.0),
-                      splashRadius: 17.0,
-                      onPressed: () {
-                        setState(() {
-                          if (orderNum > 1) orderNum--;
-                        });
-                      },
-                    ),
-                    Spacer(),
-                    Text(
-                      '63000',
-                      style: kHeadingTextStyle.copyWith(color: kPrimaryColor),
-                    ),
-                    Text(
-                      ' تومان',
-                      style: kHeadingTextStyle,
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 30.0,
-                ),
-                Divider(
-                  color: Colors.black,
-                  thickness: 0.4,
-                ),
-                SizedBox(height: 10.0),
-                Text(
-                    'آشپزی یکی از هنرهایی است که عاشق های فراوانی دارد و بر خلاف اینکه همه فکر می کنند خانم ها آشپزهای ماهری هستند، بزرگترین سرآشپزهای جهان آقا هستند و تعداد آشپزهای حرفه ای مرد بیشتر از زن می باشد. در این مطلب متن هایی را آماده کرده ایم که می توانیم در مورد غذا و آشپزی در شبکه های اجتماعی زیر تصاویر غذای خود منتشر کنید یا اینکه اگر در پیج خود در مورد غذاها مطلب ارسال می کنید، می توانید از این تکست های زیبا برای بیو پروفایل خود استفاده کنید'),
-                // Spacer(
-                //   flex: 2,
-                // ),
-                SizedBox(
-                  height: 60.0,
-                ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: TextButton(
-                      onPressed: () {},
-                      style: TextButton.styleFrom(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 40.0, vertical: 8.0),
-                        backgroundColor: kDarkerPrimaryColor,
-                        elevation: 4.0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
-                        ),
-                      ),
-                      child: Text(
-                        'افزودن به سبد خرید ',
-                        style: kHeadingTextStyle.copyWith(color: Colors.white),
-                      )),
-                )
-              ],
-            ),
+                );
+              } else if (state is FoodDetailsLoading) {
+                return Center(child: CircularProgressIndicator());
+              }
+              return Container();
+            },
+            listener: (BuildContext context, state) {
+              if (state is FoodDetailsError) {
+                print('here');
+                showAlertDialog(
+                  context: context,
+                  msg: state.msg,
+                  bloc: (c) {
+                    BlocProvider.of<FoodDetailsBloc>(c)
+                        .add(GetFoodDetailsEvent(foodId: _foodId));
+                    Navigator.of(c).pop();
+                  },
+                );
+              }
+            },
           ),
         ),
       ),

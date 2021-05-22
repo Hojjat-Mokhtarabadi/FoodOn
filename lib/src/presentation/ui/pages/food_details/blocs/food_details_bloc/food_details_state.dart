@@ -18,4 +18,10 @@ class FoodDetailsLoaded extends FoodDetailsState {
   List<Object> get props => [food];
 }
 
-class FoodDetailsError extends FoodDetailsState {}
+class FoodDetailsError extends FoodDetailsState {
+  final String msg;
+  FoodDetailsError({this.msg});
+
+  @override
+  List<Object> get props => [msg];
+}

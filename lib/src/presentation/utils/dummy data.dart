@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:foodon/src/presentation/ui/pages/cart/cart_food_items.dart';
+import 'package:foodon/src/presentation/ui/pages/cart/cart_orders.dart';
 import 'package:foodon/src/presentation/utils/enums.dart';
 
 import '../ui/pages/home/category_items.dart';
@@ -85,10 +85,10 @@ class Dummydata {
   ];
 
   List<Widget> cartItems = [
-    CartFoodItems(),
-    CartFoodItems(),
-    CartFoodItems(),
-    CartFoodItems(),
-    CartFoodItems(),
+    CartOrders(id: 1),
+    CartOrders(id: 2),
+    CartOrders(id: 3),
+    CartOrders(id: 4),
+    CartOrders(id: 5),
   ];
 }

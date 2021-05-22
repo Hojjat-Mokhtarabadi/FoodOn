@@ -2,9 +2,12 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:foodon/core/errors/failures.dart';
 import 'package:foodon/src/data/models/food/food.dart';
 import 'package:foodon/src/domain/usecases/get_food_details.dart';
 import 'package:meta/meta.dart';
+
+import '../../../../../../../constants.dart';
 
 part 'food_details_event.dart';
 part 'food_details_state.dart';
@@ -24,7 +27,11 @@ class FoodDetailsBloc extends Bloc<FoodDetailsEvent, FoodDetailsState> {
       final result = await getFoodDetails.call(event.foodId);
       yield* result.fold(
         (failure) async* {
-          yield FoodDetailsError();
+          if (failure is ServerFailure) {
+            yield FoodDetailsError(msg: kServerErrorMsg);
+          } else {
+            yield FoodDetailsError(msg: kNoConnectionMsg);
+          }
         },
         (success) async* {
           yield FoodDetailsLoaded(food: success);

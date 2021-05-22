@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:foodon/src/presentation/ui/pages/home/providers/category_items_provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:foodon/src/presentation/ui/pages/foods_list/blocs/foods_list_bloc/foods_list_bloc.dart';
+import 'package:foodon/src/presentation/ui/pages/foods_list/foods_list.dart';
 import 'package:foodon/src/presentation/utils/enums.dart';
-import 'package:provider/provider.dart';
 
 import '../../../../../constants.dart';
 
@@ -9,10 +11,12 @@ class CategoryItems extends StatefulWidget {
   final String categoryText;
   final CategoryItemsEnum id;
   final double iconSize;
+  final int categId;
 
   CategoryItems({
     @required this.categoryText,
     @required this.id,
+    this.categId = 2,
     this.iconSize = 30.0,
   });
   @override
@@ -22,16 +26,26 @@ class CategoryItems extends StatefulWidget {
 class _CategoryItemsState extends State<CategoryItems> {
   @override
   Widget build(BuildContext context) {
-    final categoryProvider = Provider.of<CategoryItemsProvider>(context);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: GestureDetector(
+      child: InkWell(
         onTap: () {
-          categoryProvider.setId(widget.id);
+          Navigator.push(
+            context,
+            CupertinoPageRoute(
+              builder: (context) => FoodsListPage(
+                topHeaderName: widget.categoryText,
+                blocEvent:
+                    GetFoodsListByCategoryEvent(categoryId: widget.categId),
+              ),
+            ),
+          );
+          BlocProvider.of<FoodsListBloc>(context)
+              .add(GetFoodsListByCategoryEvent(categoryId: widget.categId));
         },
         child: PhysicalModel(
-          color:
-              widget.id == categoryProvider.id ? kPrimaryColor : Colors.white,
+          color: Colors.white,
+          //widget.id == categoryProvider.id ? kPrimaryColor : Colors.white,
           elevation: 7.0,
           shadowColor: kShadowColor,
           borderRadius: BorderRadius.circular(10.0),
@@ -50,7 +64,7 @@ class _CategoryItemsState extends State<CategoryItems> {
                   child: Padding(
                     padding: const EdgeInsets.all(5.0),
                     child: Image.asset(
-                      kIconsAddress[widget.id],
+                      kCategoryIconsAddress[widget.id],
                       height: widget.iconSize,
                       width: widget.iconSize,
                       fit: BoxFit.contain,
@@ -61,12 +75,13 @@ class _CategoryItemsState extends State<CategoryItems> {
                   child: Text(
                     widget.categoryText,
                     style: TextStyle(
-                      fontSize: 11.0,
-                      fontWeight: FontWeight.w400,
-                      color: widget.id == categoryProvider.id
-                          ? Colors.white
-                          : Colors.black,
-                    ),
+                        fontSize: 11.0,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.black
+                        // widget.id == categoryProvider.id
+                        //     ? Colors.white
+                        //     : Colors.black,
+                        ),
                     maxLines: 1,
                   ),
                 ),

@@ -8,7 +8,8 @@ import 'package:foodon/src/presentation/ui/widgets/top_header.dart';
 
 class FoodsListPage extends StatelessWidget {
   final blocEvent;
-  FoodsListPage({@required this.blocEvent});
+  final String topHeaderName;
+  FoodsListPage({@required this.blocEvent, @required this.topHeaderName});
   @override
   Widget build(BuildContext context) {
     SizeConfig(context: context);
@@ -20,7 +21,7 @@ class FoodsListPage extends StatelessWidget {
             //crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TopHeader(
-                headerName: 'لیست غذا ها',
+                headerName: this.topHeaderName,
               ),
               SizedBox(height: 10.0),
               BlocConsumer(

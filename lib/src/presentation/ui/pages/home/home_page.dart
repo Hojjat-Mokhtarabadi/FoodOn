@@ -26,10 +26,10 @@ class HomePage extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  SvgPicture.asset(kImageAddress[ImageAddresses.drawer]),
-                  SvgPicture.asset(kImageAddress[ImageAddresses.logo],
+                  SvgPicture.asset(kImagesAddress[ImageAddresses.drawer]),
+                  SvgPicture.asset(kImagesAddress[ImageAddresses.logo],
                       fit: BoxFit.fill),
-                  SvgPicture.asset(kImageAddress[ImageAddresses.notification]),
+                  SvgPicture.asset(kImagesAddress[ImageAddresses.notification]),
                 ],
               ),
             ),
