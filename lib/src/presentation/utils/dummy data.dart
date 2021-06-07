@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:foodon/src/presentation/ui/pages/cart/cart_orders.dart';
 import 'package:foodon/src/presentation/utils/enums.dart';
 
 import '../ui/pages/home/category_items.dart';
@@ -80,15 +79,15 @@ class Dummydata {
     ),
     CategoryItems(categoryText: 'سالاد', id: CategoryItemsEnum.salad),
     CategoryItems(categoryText: 'پیش غذا', id: CategoryItemsEnum.preFood),
-    //CategoryItems(categoryText: 'سنتی', id: CategoryItemsEnum.traditional),
-    //CategoryItems(categoryText: 'سرد', id: CategoryItemsEnum.snack),
+    CategoryItems(categoryText: 'سنتی', id: CategoryItemsEnum.traditional),
+    CategoryItems(categoryText: 'سرد', id: CategoryItemsEnum.snack),
   ];
 
   List<Widget> cartItems = [
-    CartOrders(id: 1),
-    CartOrders(id: 2),
-    CartOrders(id: 3),
-    CartOrders(id: 4),
-    CartOrders(id: 5),
+    // CartOrders(id: 1),
+    // CartOrders(id: 2),
+    // CartOrders(id: 3),
+    // CartOrders(id: 4),
+    // CartOrders(id: 5),
   ];
 }

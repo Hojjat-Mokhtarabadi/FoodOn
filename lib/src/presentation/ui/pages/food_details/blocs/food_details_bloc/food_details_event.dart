@@ -7,9 +7,9 @@ abstract class FoodDetailsEvent extends Equatable {
 }
 
 class GetFoodDetailsEvent extends FoodDetailsEvent {
-  final foodId;
-  GetFoodDetailsEvent({this.foodId});
+  final FoodDetailsReqModel fdReq;
+  GetFoodDetailsEvent({this.fdReq});
 
   @override
-  List<Object> get props => [foodId];
+  List<Object> get props => [fdReq];
 }

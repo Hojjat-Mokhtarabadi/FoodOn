@@ -12,10 +12,11 @@ class LoginLoading extends LoginState {}
 
 class LoginSuccess extends LoginState {
   final Customer customer;
-  LoginSuccess({this.customer});
+  final int cartId;
+  LoginSuccess({this.customer, this.cartId});
 
   @override
-  List<Object> get props => [customer];
+  List<Object> get props => [customer, cartId];
 }
 
 class LoginError extends LoginState {
@@ -25,3 +26,5 @@ class LoginError extends LoginState {
   @override
   List<Object> get props => [message];
 }
+
+class LoginNoConnectionError extends LoginState {}

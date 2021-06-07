@@ -3,158 +3,140 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodon/constants.dart';
 import 'package:foodon/size_config.dart';
+import 'package:foodon/src/domain/entity/entity.dart';
+import 'package:foodon/src/domain/usecases/get_comments_scores_list.dart';
+import 'package:foodon/src/domain/usecases/get_food_details.dart';
 import 'package:foodon/src/presentation/ui/pages/food_details/blocs/food_details_bloc/food_details_bloc.dart';
-import 'package:foodon/src/presentation/ui/widgets/errors_alert.dart';
-import 'package:foodon/src/presentation/ui/widgets/order_count_row.dart';
+import 'package:foodon/src/presentation/ui/pages/food_details/blocs/get_comments_bloc/get_comments_bloc.dart';
+import 'package:foodon/src/presentation/ui/pages/food_details/details_body.dart';
+import 'package:foodon/src/presentation/utils/providers/food_info.dart';
+import 'package:foodon/src/presentation/utils/providers/user_info.dart';
+import 'package:provider/provider.dart';
 
 class DetailsPage extends StatefulWidget {
+  final foodId;
+  final initialCount;
+  final FirebaseFileModel firebaseFileModel;
+  DetailsPage({
+    @required this.foodId,
+    this.initialCount = 1,
+    @required this.firebaseFileModel,
+  });
   @override
   _DetailsPageState createState() => _DetailsPageState();
 }
 
 class _DetailsPageState extends State<DetailsPage> {
   int _foodId;
+  int _userId;
   int _orderNum;
+  double _price = 0.0;
+  @override
+  void initState() {
+    super.initState();
+    _orderNum = widget.initialCount;
+  }
+
   @override
   Widget build(BuildContext context) {
     SizeConfig(context: context);
+    final foodInfoProv = Provider.of<FoodInfoProvider>(context);
+    final userInfoProv = Provider.of<UserInfoProvider>(context);
+    _foodId = foodInfoProv.id;
+    _price = foodInfoProv.price;
+    _userId = userInfoProv.id;
     return Scaffold(
       // resizeToAvoidBottomInset: false,
       body: Container(
         decoration: kBackgroundImageBox,
         child: SafeArea(
-          child: BlocConsumer(
-            bloc: BlocProvider.of<FoodDetailsBloc>(context),
-            builder: (context, state) {
-              if (state is FoodDetailsLoaded) {
-                _foodId = state.food.id;
-                return Column(
-                  //mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Expanded(
-                      child: ListView(
-                        // shrinkWrap: true,
-                        padding:
-                            EdgeInsets.only(left: 35.0, right: 35.0, top: 35.0),
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(10.0),
-                            child: Image.asset(
-                              'assets/images/food_images/burger.jpg',
-                              fit: BoxFit.cover,
-                              width: SizeConfig.width * 0.8,
-                              height: SizeConfig.height * 0.29,
-                            ),
-                          ),
-                          SizedBox(height: 15.0),
-                          Row(
-                            children: [
-                              Text(
-                                state.food.name,
-                                style: kHeadingTextStyle.copyWith(
-                                    fontSize: 15.0,
-                                    fontWeight: FontWeight.w800),
-                              ),
-                              Spacer(),
-                              Text(
-                                '${state.food.score}',
-                                style: kHeadingTextStyle.copyWith(
-                                    fontSize: 15.0,
-                                    fontWeight: FontWeight.w800),
-                              ),
-                              Icon(
-                                Icons.star,
-                                color: Colors.yellow,
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 30.0),
-                          Row(
-                            children: [
-                              OrdersCountRow(
-                                foodId: state.food.id,
-                                orderNumFunction: (num) {
-                                  _orderNum = num;
-                                },
-                              ),
-                              Spacer(),
-                              Text(
-                                '${state.food.price}',
-                                style: kHeadingTextStyle.copyWith(
-                                    color: kPrimaryColor),
-                              ),
-                              Text(
-                                ' تومان',
-                                style: kHeadingTextStyle,
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 25.0,
-                          ),
-                          Divider(
-                            color: Colors.black,
-                            thickness: 0.4,
-                          ),
-                          SizedBox(height: 10.0),
-                          Text('${state.food.detail}'),
-                          // Spacer(
-                          //   flex: 2,
-                          // ),
-                          SizedBox(
-                            height: 60.0,
-                          ),
-                        ],
-                      ),
-                    ),
-                    //Spacer(),
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: TextButton(
-                          onPressed: () {
-                            //BlocProvider.of<PostOrderBloc>(context).add(PostNewOrderEvent(order: new Order()));
-                          },
-                          style: TextButton.styleFrom(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 40.0, vertical: 8.0),
-                            backgroundColor: kDarkerPrimaryColor,
-                            elevation: 4.0,
-                            shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(8)),
-                            ),
-                          ),
-                          child: Text(
-                            'افزودن به سبد خرید ',
-                            style:
-                                kHeadingTextStyle.copyWith(color: Colors.white),
-                          )),
-                    ),
-                    SizedBox(height: 20.0)
-                  ],
-                );
-              } else if (state is FoodDetailsLoading) {
-                return Center(child: CircularProgressIndicator());
-              }
-              return Container();
+          child: RefreshIndicator(
+            onRefresh: () async {
+              BlocProvider.of<FoodDetailsBloc>(context).add(
+                GetFoodDetailsEvent(
+                    fdReq:
+                        FoodDetailsReqModel(userId: _userId, foodId: _foodId)),
+              );
+              BlocProvider.of<CommentsBloc>(context).add(GetAllCommentsEvent(
+                  commentsReq:
+                      CommentsReqModel(foodId: _foodId, userId: _userId)));
             },
-            listener: (BuildContext context, state) {
-              if (state is FoodDetailsError) {
-                print('here');
-                showAlertDialog(
-                  context: context,
-                  msg: state.msg,
-                  bloc: (c) {
-                    BlocProvider.of<FoodDetailsBloc>(c)
-                        .add(GetFoodDetailsEvent(foodId: _foodId));
-                    Navigator.of(c).pop();
-                  },
-                );
-              }
-            },
+            child: Stack(
+              children: [
+                ListView(),
+                BlocBuilder(
+                  bloc: BlocProvider.of<CommentsBloc>(context),
+                  builder: (context, commentState) => BlocConsumer(
+                    bloc: BlocProvider.of<FoodDetailsBloc>(context),
+                    builder: (context, foodState) {
+                      if (foodState is FoodDetailsLoaded &&
+                          commentState is CommentsLoaded) {
+                        print('here in f l cl');
+                        return DetailsBody(
+                          food: foodState.food.foodDetails,
+                          firebaseFileModel: widget.firebaseFileModel,
+                          orderNum: _orderNum,
+                          foodExistsInCart: foodState.food.existsInCart,
+                          commentsList: commentState.cm.commentsList,
+                          found: true,
+                          alreadyCommented: commentState.cm.alreadyCommented,
+                          commentId: commentState.cm.commentId,
+                        );
+                      } else if (foodState is FoodDetailsLoaded &&
+                          commentState is CommentsNotFoundError) {
+                        print('here in fl c n f');
+                        return DetailsBody(
+                          food: foodState.food.foodDetails,
+                          firebaseFileModel: widget.firebaseFileModel,
+                          orderNum: _orderNum,
+                          foodExistsInCart: foodState.food.existsInCart,
+                          commentsList: [],
+                          found: false,
+                          alreadyCommented: false,
+                          commentId: 0,
+                        );
+                      } else if (foodState is FoodDetailsLoading ||
+                          commentState is CommentsLoading) {
+                        print('here in ld');
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                      return Container();
+                    },
+                    listener: (context, foodState) {
+                      if (foodState is FoodDetailsError ||
+                          commentState is CommentsError) {
+                        print('error');
+                      }
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 }
+
+//   } else if (state is GetCommentsLoading) {
+//     return Center(child: CircularProgressIndicator());
+//   }
+//   return Container();
+// },
+// listener: (BuildContext context, state) {
+//   if (state is GetCommentsError) {
+//     print('here');
+//     showAlertDialog(
+//       context: context,
+//       msg: state.message,
+//       bloc: (c) {
+//         BlocProvider.of<FoodDetailsBloc>(c)
+//             .add(GetFoodDetailsEvent(foodId: _foodId));
+//         Navigator.of(c).pop();
+//       },
+//     );
+//   }
+// },

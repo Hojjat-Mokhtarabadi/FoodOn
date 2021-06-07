@@ -11,7 +11,13 @@ class SignUpInitial extends SignUpState {}
 
 class SignUpLoading extends SignUpState {}
 
-class SignUpSuccess extends SignUpState {}
+class SignUpSuccess extends SignUpState {
+  final int cartId;
+  SignUpSuccess({this.cartId});
+
+  @override
+  List<Object> get props => [cartId];
+}
 
 class SignUpError extends SignUpState {
   final String message;

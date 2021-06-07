@@ -18,8 +18,6 @@ class _$FoodSerializer implements StructuredSerializer<Food> {
   Iterable<Object> serialize(Serializers serializers, Food object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object>[
-      'id',
-      serializers.serialize(object.id, specifiedType: const FullType(int)),
       'name',
       serializers.serialize(object.name, specifiedType: const FullType(String)),
       'price',
@@ -27,6 +25,12 @@ class _$FoodSerializer implements StructuredSerializer<Food> {
           specifiedType: const FullType(double)),
     ];
     Object value;
+    value = object.id;
+    if (value != null) {
+      result
+        ..add('id')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
     value = object.detail;
     if (value != null) {
       result
@@ -131,7 +135,6 @@ class _$Food extends Food {
       this.categoryId,
       this.category})
       : super._() {
-    BuiltValueNullFieldError.checkNotNull(id, 'Food', 'id');
     BuiltValueNullFieldError.checkNotNull(name, 'Food', 'name');
     BuiltValueNullFieldError.checkNotNull(price, 'Food', 'price');
   }
@@ -249,7 +252,7 @@ class FoodBuilder implements Builder<Food, FoodBuilder> {
     try {
       _$result = _$v ??
           new _$Food._(
-              id: BuiltValueNullFieldError.checkNotNull(id, 'Food', 'id'),
+              id: id,
               name: BuiltValueNullFieldError.checkNotNull(name, 'Food', 'name'),
               detail: detail,
               price:

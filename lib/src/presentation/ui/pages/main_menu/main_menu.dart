@@ -51,8 +51,8 @@ class _MainMenuState extends State<MainMenu> {
         decoration: NavBarDecoration(
           colorBehindNavBar: Colors.white,
           borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(12.0),
-            topRight: Radius.circular(12.0),
+            topLeft: Radius.circular(10.0),
+            topRight: Radius.circular(10.0),
           ),
           boxShadow: [
             BoxShadow(

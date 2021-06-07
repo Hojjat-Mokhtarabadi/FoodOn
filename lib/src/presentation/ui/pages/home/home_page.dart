@@ -22,7 +22,7 @@ class HomePage extends StatelessWidget {
             //automaticallyImplyLeading: false,
             flexibleSpace: Padding(
               padding: EdgeInsets.only(
-                  top: SizeConfig.height * 0.01, left: 30, right: 30),
+                  top: SizeConfig.h * 0.015, left: 30, right: 30),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

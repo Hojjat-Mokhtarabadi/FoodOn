@@ -10,8 +10,8 @@ class TopHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     SizeConfig(context: context);
     return Container(
-      width: SizeConfig.width / 3,
-      height: SizeConfig.height * 0.08,
+      width: SizeConfig.w / 3,
+      height: SizeConfig.h * 0.08,
       decoration: BoxDecoration(
           color: kPrimaryColor.withOpacity(0.5),
           borderRadius: BorderRadius.only(

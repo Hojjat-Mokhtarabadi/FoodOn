@@ -1,14 +1,14 @@
 enum CategoryItemsEnum {
-  traditional,
   kebab,
-  friedPotato,
+  burger,
+  salad,
+  traditional,
   friedChicken,
   pizza,
-  burger,
   beverage,
-  salad,
   preFood,
-  snack
+  snack,
+  friedPotato,
 }
 
 enum ImageAddresses {

@@ -33,12 +33,12 @@ abstract class Customer implements Built<Customer, CustomerBuilder> {
   factory Customer([updates(CustomerBuilder b)]) = _$Customer;
 
   String toJson() {
-    return json.encode(serializers.serializeWith(Customer.serializer, this));
+    return jsonEncode(serializers.serializeWith(Customer.serializer, this));
   }
 
   static Customer fromJson(String jsonString) {
     return serializers.deserializeWith(
-        Customer.serializer, json.decode(jsonString));
+        Customer.serializer, jsonDecode(jsonString));
   }
 
   static Serializer<Customer> get serializer => _$customerSerializer;

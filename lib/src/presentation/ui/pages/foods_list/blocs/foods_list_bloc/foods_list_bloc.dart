@@ -50,7 +50,8 @@ class FoodsListBloc extends Bloc<FoodsListEvent, FoodsListState> {
         if (failure is ServerFailure) {
           yield FoodsListError(message: kServerErrorMsg);
         } else if (failure is NotFoundFailure) {
-          yield FoodsListError(message: kNotFoundMsg);
+          print('not found');
+          yield FoodsListNotFound();
         } else {
           yield FoodsListError(message: kNoConnectionMsg);
         }

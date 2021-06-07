@@ -20,12 +20,12 @@ abstract class Category implements Built<Category, CategoryBuilder> {
   factory Category([updates(CategoryBuilder b)]) = _$Category;
 
   String toJson() {
-    return json.encode(serializers.serializeWith(Category.serializer, this));
+    return jsonEncode(serializers.serializeWith(Category.serializer, this));
   }
 
   static Category fromJson(String jsonString) {
     return serializers.deserializeWith(
-        Category.serializer, json.decode(jsonString));
+        Category.serializer, jsonDecode(jsonString));
   }
 
   static Serializer<Category> get serializer => _$categorySerializer;

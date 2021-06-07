@@ -11,7 +11,7 @@ class FoodDetailsInitial extends FoodDetailsState {}
 class FoodDetailsLoading extends FoodDetailsState {}
 
 class FoodDetailsLoaded extends FoodDetailsState {
-  final Food food;
+  final FoodView food;
   FoodDetailsLoaded({this.food});
 
   @override

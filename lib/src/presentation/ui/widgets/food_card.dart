@@ -3,15 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:foodon/src/data/models/food/food.dart';
+import 'package:foodon/src/domain/entity/entity.dart';
+import 'package:foodon/src/domain/usecases/get_comments_scores_list.dart';
+import 'package:foodon/src/domain/usecases/get_food_details.dart';
 import 'package:foodon/src/presentation/ui/pages/food_details/blocs/food_details_bloc/food_details_bloc.dart';
+import 'package:foodon/src/presentation/ui/pages/food_details/blocs/get_comments_bloc/get_comments_bloc.dart';
 import 'package:foodon/src/presentation/ui/pages/food_details/details_page.dart';
 import 'package:foodon/src/presentation/utils/enums.dart';
+import 'package:foodon/src/presentation/utils/providers/food_info.dart';
+import 'package:foodon/src/presentation/utils/providers/user_info.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../constants.dart';
 
 class FoodCard extends StatelessWidget {
   final Food food;
-  final String foodPic;
+  final FirebaseFileModel foodPic;
 
   FoodCard({
     @required this.food,
@@ -19,6 +26,8 @@ class FoodCard extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
+    final foodInfoProv = Provider.of<FoodInfoProvider>(context);
+    final userInfoProv = Provider.of<UserInfoProvider>(context);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: InkWell(
@@ -26,11 +35,35 @@ class FoodCard extends StatelessWidget {
           Navigator.push(
             context,
             CupertinoPageRoute(
-              builder: (context) => DetailsPage(),
+              builder: (context) => DetailsPage(
+                foodId: this.food.id,
+                firebaseFileModel: this.foodPic,
+              ),
             ),
           );
-          BlocProvider.of<FoodDetailsBloc>(context)
-              .add(GetFoodDetailsEvent(foodId: this.food.id));
+          BlocProvider.of<CommentsBloc>(context).add(
+            GetAllCommentsEvent(
+              commentsReq: CommentsReqModel(
+                foodId: this.food.id,
+                userId: userInfoProv.id,
+              ),
+            ),
+          );
+          BlocProvider.of<FoodDetailsBloc>(context).add(
+            GetFoodDetailsEvent(
+              fdReq: FoodDetailsReqModel(
+                foodId: this.food.id,
+                userId: userInfoProv.id,
+              ),
+            ),
+          );
+          foodInfoProv.setFoodInfo(
+              id: this.food.id,
+              name: this.food.name,
+              detail: this.food.detail,
+              price: this.food.price,
+              score: this.food.score,
+              categoryId: this.food.categoryId);
         },
         // style: TextButton.styleFrom(
         //   padding: EdgeInsets.zero,
@@ -74,8 +107,8 @@ class FoodCard extends StatelessWidget {
                                     0, 0, rect.width, rect.height));
                               },
                               blendMode: BlendMode.darken,
-                              child: Image.asset(
-                                foodPic,
+                              child: Image.network(
+                                foodPic.url,
                                 fit: BoxFit.cover,
                               ),
                             ),

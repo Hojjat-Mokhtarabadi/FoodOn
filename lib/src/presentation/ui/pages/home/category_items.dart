@@ -9,15 +9,17 @@ import '../../../../../constants.dart';
 
 class CategoryItems extends StatefulWidget {
   final String categoryText;
+  final String path;
   final CategoryItemsEnum id;
   final double iconSize;
   final int categId;
 
   CategoryItems({
     @required this.categoryText,
-    @required this.id,
+    this.id,
     this.categId = 2,
     this.iconSize = 30.0,
+    this.path,
   });
   @override
   _CategoryItemsState createState() => _CategoryItemsState();
@@ -35,6 +37,7 @@ class _CategoryItemsState extends State<CategoryItems> {
             CupertinoPageRoute(
               builder: (context) => FoodsListPage(
                 topHeaderName: widget.categoryText,
+                path: widget.path,
                 blocEvent:
                     GetFoodsListByCategoryEvent(categoryId: widget.categId),
               ),
@@ -64,7 +67,7 @@ class _CategoryItemsState extends State<CategoryItems> {
                   child: Padding(
                     padding: const EdgeInsets.all(5.0),
                     child: Image.asset(
-                      kCategoryIconsAddress[widget.id],
+                      kCategoryIconsAddress[kCategoryNameEnum[widget.categId]],
                       height: widget.iconSize,
                       width: widget.iconSize,
                       fit: BoxFit.contain,

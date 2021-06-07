@@ -13,11 +13,10 @@ class HomeLoading extends HomeState {}
 class HomeLoaded extends HomeState {
   final List<Food> specialFoodsList;
   final List<Food> popularFoodsList;
+  final List<Category> categoriesList;
 
-  HomeLoaded({
-    this.specialFoodsList,
-    this.popularFoodsList,
-  });
+  HomeLoaded(
+      {this.specialFoodsList, this.popularFoodsList, this.categoriesList});
 
   @override
   List<Object> get props => [specialFoodsList, popularFoodsList];

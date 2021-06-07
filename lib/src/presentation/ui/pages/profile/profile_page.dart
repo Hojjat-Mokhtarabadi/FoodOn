@@ -4,17 +4,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodon/constants.dart';
 import 'package:foodon/size_config.dart';
 import 'package:foodon/src/presentation/ui/pages/login/login_page.dart';
+import 'package:foodon/src/presentation/ui/pages/my_orders/bloc/bills_list_bloc.dart';
+import 'package:foodon/src/presentation/ui/pages/my_orders/my_bills_list.dart';
 import 'package:foodon/src/presentation/ui/pages/profile/blocs/log_out_bloc/logout_bloc.dart';
 import 'package:foodon/src/presentation/ui/pages/profile/update_info_page.dart';
 import 'package:foodon/src/presentation/ui/widgets/errors_alert.dart';
-import 'package:foodon/src/presentation/ui/widgets/loading_stack.dart';
+import 'package:foodon/src/presentation/ui/widgets/loading_progress.dart';
 import 'package:foodon/src/presentation/utils/enums.dart';
 import 'package:foodon/src/presentation/utils/providers/bottom_nav_state.dart';
-import 'package:foodon/src/presentation/utils/providers/user_id.dart';
+import 'package:foodon/src/presentation/utils/providers/user_info.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../main.dart';
-import 'blocs/user_info_bloc/user_info_bloc.dart';
 
 final _dialogKey = GlobalKey<State>();
 
@@ -22,7 +23,7 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SizeConfig(context: context);
-    final prov = Provider.of<UserInfoProvider>(context);
+    final userInfoProv = Provider.of<UserInfoProvider>(context);
     final bottomNavState =
         Provider.of<BottomNavStateProvider>(context, listen: false);
     return Scaffold(
@@ -47,21 +48,28 @@ class ProfilePage extends StatelessWidget {
                   ),
                   SizedBox(height: 10.0),
                   Text(
-                    "${prov.firstName} ${prov.lastName}",
+                    "${userInfoProv.firstName} ${userInfoProv.lastName}",
                     style: kHeadingTextStyle,
                   ),
                   SizedBox(height: 3.0),
-                  Text(prov.phone),
+                  Text(userInfoProv.phone),
                   Divider(
                     color: Colors.black,
-                    indent: SizeConfig.width * 0.18,
-                    endIndent: SizeConfig.width * 0.18,
+                    indent: SizeConfig.w * 0.18,
+                    endIndent: SizeConfig.w * 0.18,
                   ),
                   SizedBox(height: 5.0),
                   _buildContainer(
                       txt: 'ســفــارشــات مـــن',
                       icon: kProfileAddresses[ProfileIcons.myOrders],
-                      onPressed: () {}),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            CupertinoPageRoute(
+                                builder: (context) => MyOrdersPage()));
+                        BlocProvider.of<BillsListBloc>(context)
+                            .add(GetBillsListEvent(userId: userInfoProv.id));
+                      }),
                   _buildContainer(
                       txt: 'کـــیــــف پــــــــــــــول',
                       icon: kProfileAddresses[ProfileIcons.wallet],
@@ -78,17 +86,17 @@ class ProfilePage extends StatelessWidget {
                           context,
                           CupertinoPageRoute(
                             builder: (context) => UpdateUserInformationPage(
-                              id: prov.id,
-                              firstName: prov.firstName,
-                              lastName: prov.lastName,
-                              address: prov.lastName,
-                              phone: prov.phone,
-                              pass: prov.password,
+                              id: userInfoProv.id,
+                              firstName: userInfoProv.firstName,
+                              lastName: userInfoProv.lastName,
+                              address: userInfoProv.address,
+                              phone: userInfoProv.phone,
+                              pass: userInfoProv.password,
                             ),
                           ),
                         );
-                        BlocProvider.of<UserInfoBloc>(context)
-                            .add(GetUserInfoEvent(userId: prov.id));
+                        // BlocProvider.of<UserInfoBloc>(context)
+                        //     .add(GetUserInfoEvent(userId: prov.id));
                       }),
                   _buildContainer(
                       txt: 'ســوالـات مـتـداول',
@@ -101,7 +109,7 @@ class ProfilePage extends StatelessWidget {
                       color: Colors.red,
                       onPressed: () {
                         BlocProvider.of<LogoutBloc>(context)
-                            .add(LogOutUserEvent(userId: prov.id));
+                            .add(LogOutUserEvent(userId: userInfoProv.id));
                       }),
                 ],
               );
@@ -138,8 +146,8 @@ class ProfilePage extends StatelessWidget {
       String icon,
       VoidCallback onPressed}) {
     return Padding(
-      padding: EdgeInsets.symmetric(
-          horizontal: SizeConfig.width * 0.16, vertical: 0),
+      padding:
+          EdgeInsets.symmetric(horizontal: SizeConfig.w * 0.16, vertical: 0),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

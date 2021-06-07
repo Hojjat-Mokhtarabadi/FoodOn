@@ -1,20 +1,20 @@
 part of 'post_order_bloc.dart';
 
 @immutable
-abstract class PostOrderState extends Equatable {
+abstract class SetMyOrderState extends Equatable {
   @override
   List<Object> get props => [];
 }
 
-class PostOrderInitial extends PostOrderState {}
+class SetMyOrderInitial extends SetMyOrderState {}
 
-class PostOrderLoading extends PostOrderState {}
+class SetCartOrderLoading extends SetMyOrderState {}
 
-class PostOrderLoaded extends PostOrderState {}
+class SetCartOrderSuccess extends SetMyOrderState {}
 
-class PostOrderError extends PostOrderState {
+class SetCartOrderError extends SetMyOrderState {
   final String msg;
-  PostOrderError({this.msg});
+  SetCartOrderError({this.msg});
 
   @override
   List<Object> get props => [msg];

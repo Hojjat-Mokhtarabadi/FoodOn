@@ -2,7 +2,6 @@ library delivery;
 
 import 'dart:convert';
 
-import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
@@ -23,12 +22,12 @@ abstract class Delivery implements Built<Delivery, DeliveryBuilder> {
   factory Delivery([updates(DeliveryBuilder b)]) = _$Delivery;
 
   String toJson() {
-    return json.encode(serializers.serializeWith(Delivery.serializer, this));
+    return jsonEncode(serializers.serializeWith(Delivery.serializer, this));
   }
 
   static Delivery fromJson(String jsonString) {
     return serializers.deserializeWith(
-        Delivery.serializer, json.decode(jsonString));
+        Delivery.serializer, jsonDecode(jsonString));
   }
 
   static Serializer<Delivery> get serializer => _$deliverySerializer;

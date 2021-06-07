@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:foodon/constants.dart';
 import 'package:foodon/core/errors/failures.dart';
 import 'package:foodon/core/usecases/usecase_base.dart';
+import 'package:foodon/src/data/models/category/category.dart';
 import 'package:foodon/src/data/models/food/food.dart';
 import 'package:foodon/src/domain/usecases/get_categories_list.dart';
 import 'package:foodon/src/domain/usecases/get_popular_foods.dart';
@@ -54,9 +55,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
             },
             (specialFoods) async* {
               yield HomeLoaded(
-                specialFoodsList: specialFoods,
-                popularFoodsList: specialFoods,
-              );
+                  specialFoodsList: specialFoods,
+                  popularFoodsList: specialFoods,
+                  categoriesList: categories);
             },
           );
         },

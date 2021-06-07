@@ -9,7 +9,10 @@ class Success extends Equatable {
 
 class AuthenticationSuccess extends Success {}
 
-class PostSuccess extends Success {}
+class PostSuccess extends Success {
+  final postedItemId;
+  PostSuccess({this.postedItemId});
+}
 
 class PutSuccess extends Success {}
 

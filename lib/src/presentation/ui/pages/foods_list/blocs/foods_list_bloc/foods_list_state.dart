@@ -25,3 +25,5 @@ class FoodsListError extends FoodsListState {
   @override
   List<Object> get props => [message];
 }
+
+class FoodsListNotFound extends FoodsListState {}

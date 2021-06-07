@@ -11,7 +11,6 @@ class PostNewUser extends UsecaseBase<PostSuccess, Customer> {
   @override
   Future<Either<Failure, PostSuccess>> call(Customer customer) async {
     final a = await repository.postNewUser(customer);
-    print(a);
     return a;
   }
 }

@@ -26,12 +26,12 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         if (failure is AuthenticationFailed) {
           yield LoginError(message: 'نام کاربری یا رمز عبور اشتباه است');
         } else if (failure is ServerFailure) {
-          LoginError(message: kServerErrorMsg);
+          yield LoginError(message: kServerErrorMsg);
         } else if (failure is NoConnectionFailure) {
-          LoginError(message: kNoConnectionMsg);
+          yield LoginError(message: kNoConnectionMsg);
         }
       }, (success) async* {
-        yield LoginSuccess(customer: success);
+        yield LoginSuccess(customer: success.userInfo, cartId: success.cartId);
       });
     }
   }

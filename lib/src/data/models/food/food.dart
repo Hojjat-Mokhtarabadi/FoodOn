@@ -12,6 +12,7 @@ part 'food.g.dart';
 
 abstract class Food implements Built<Food, FoodBuilder> {
   // fields go here
+  @nullable
   int get id;
   String get name;
   @nullable
@@ -30,12 +31,11 @@ abstract class Food implements Built<Food, FoodBuilder> {
   factory Food([updates(FoodBuilder b)]) = _$Food;
 
   String toJson() {
-    return json.encode(serializers.serializeWith(Food.serializer, this));
+    return jsonEncode(serializers.serializeWith(Food.serializer, this));
   }
 
   static Food fromJson(String jsonString) {
-    return serializers.deserializeWith(
-        Food.serializer, json.decode(jsonString));
+    return serializers.deserializeWith(Food.serializer, jsonDecode(jsonString));
   }
 
   static Serializer<Food> get serializer => _$foodSerializer;

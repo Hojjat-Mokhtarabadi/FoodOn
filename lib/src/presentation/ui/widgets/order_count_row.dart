@@ -5,15 +5,23 @@ import '../../../../constants.dart';
 
 class OrdersCountRow extends StatefulWidget {
   final int foodId;
+  final int initialCount;
   final void Function(int num) orderNumFunction;
-  const OrdersCountRow({this.foodId, this.orderNumFunction});
+  const OrdersCountRow(
+      {this.foodId, this.orderNumFunction, this.initialCount = 1});
 
   @override
   _OrdersCountRowState createState() => _OrdersCountRowState();
 }
 
 class _OrdersCountRowState extends State<OrdersCountRow> {
-  int orderNum = 1;
+  int orderNum;
+  @override
+  void initState() {
+    super.initState();
+    orderNum = widget.initialCount;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -25,6 +33,7 @@ class _OrdersCountRowState extends State<OrdersCountRow> {
             width: 30.0,
           ),
           constraints: BoxConstraints(),
+          iconSize: 28,
           padding: EdgeInsets.symmetric(horizontal: 3.0),
           splashRadius: 17.0,
           onPressed: () {
@@ -38,15 +47,17 @@ class _OrdersCountRowState extends State<OrdersCountRow> {
           padding: EdgeInsets.symmetric(horizontal: 7.0),
           child: Text(
             '$orderNum',
-            style: kHeadingTextStyle.copyWith(fontSize: 17.0),
+            style: kHeadingTextStyle.copyWith(fontSize: 20.0),
           ),
         ),
         IconButton(
           icon: Image.asset(
             kImagesAddress[ImageAddresses.minus],
-            width: 30.0,
+            // width: 40.0,
+            // height: 40.0,
           ),
           constraints: BoxConstraints(),
+          iconSize: 28,
           padding: EdgeInsets.symmetric(horizontal: 3.0),
           splashRadius: 17.0,
           onPressed: () {

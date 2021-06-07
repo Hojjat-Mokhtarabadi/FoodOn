@@ -5,6 +5,7 @@ const Color kPrimaryColor = Color(0xFF5EBA93);
 const Color kDarkerPrimaryColor = Color(0xFF5EBA93);
 const Color kAccentColor = Color(0xFF26283A);
 const Color kShadowColor = Color(0x88000000);
+
 //--------------------------------------------------------
 
 const String kServerErrorMsg = 'خطایی از سرور رخ داده است';
@@ -37,6 +38,19 @@ const Map<CategoryItemsEnum, String> kCategoryIconsAddress = {
   CategoryItemsEnum.salad: 'assets/images/icons_png/salad.png',
   CategoryItemsEnum.snack: 'assets/images/icons_png/snack.png',
   CategoryItemsEnum.traditional: 'assets/images/icons_png/trad.png'
+};
+
+const Map<int, CategoryItemsEnum> kCategoryNameEnum = {
+  1: CategoryItemsEnum.kebab,
+  7: CategoryItemsEnum.beverage,
+  2: CategoryItemsEnum.burger,
+  5: CategoryItemsEnum.friedChicken,
+  10: CategoryItemsEnum.friedPotato,
+  6: CategoryItemsEnum.pizza,
+  8: CategoryItemsEnum.preFood,
+  3: CategoryItemsEnum.salad,
+  9: CategoryItemsEnum.snack,
+  4: CategoryItemsEnum.traditional
 };
 
 //----------------------------------------------------------

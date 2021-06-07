@@ -31,8 +31,9 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
           yield SignUpError(message: kNoConnectionMsg);
         }
       }, (success) async* {
-        print('here');
-        yield SignUpSuccess();
+        print('here bloc');
+        print(success.postedItemId);
+        yield SignUpSuccess(cartId: int.parse(success.postedItemId));
       });
     }
   }
