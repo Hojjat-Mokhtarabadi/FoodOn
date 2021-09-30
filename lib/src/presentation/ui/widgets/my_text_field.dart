@@ -20,8 +20,11 @@ class MyTextField extends StatelessWidget {
     SizeConfig(context: context);
     return Theme(
       data: ThemeData(
-          primaryColor: Colors.black,
-          accentColor: Colors.white,
+          colorScheme: ThemeData().colorScheme.copyWith(
+                primary: Colors.black,
+              ),
+          // primaryColor: Colors.black,
+          // accentColor: Colors.white,
           fontFamily: 'Vazir'),
       child: Padding(
         padding:
@@ -30,6 +33,7 @@ class MyTextField extends StatelessWidget {
           controller: controller,
           keyboardType: type,
           validator: validator,
+          cursorColor: Colors.black,
           decoration: InputDecoration(
             fillColor: Colors.white,
             filled: true,

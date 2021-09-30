@@ -23,6 +23,8 @@ class _FoodDescriptionTextState extends State<FoodDescriptionText> {
       child: Container(
         child: Text(
           '${widget.txt} ',
+          style: TextStyle(fontSize: 14.3),
+          textAlign: TextAlign.justify,
           maxLines: showMore ? 20 : 3,
           overflow: TextOverflow.ellipsis,
         ),

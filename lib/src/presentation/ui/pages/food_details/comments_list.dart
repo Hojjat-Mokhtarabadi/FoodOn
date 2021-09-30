@@ -34,7 +34,8 @@ class CommentsListPage extends StatelessWidget {
           bloc: BlocProvider.of<CommentsBloc>(context),
           builder: (context, state) {
             if (state is CommentsLoaded) {
-              final List<CommentView> reversedCm = state.cm.commentsList;
+              final List<CommentView> reversedCm =
+                  state.cm.commentsList.reversed.toList();
               return Stack(alignment: Alignment.bottomCenter, children: [
                 Column(
                   children: [

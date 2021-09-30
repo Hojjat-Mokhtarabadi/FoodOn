@@ -22,11 +22,13 @@ class SendComment extends StatefulWidget {
   final commentId;
   final commentText;
   final int initialRate;
+  final BuildContext cxt;
   SendComment(
       {this.popDialog,
       this.alreadyCommented,
       this.commentId,
       this.commentText,
+      this.cxt,
       this.initialRate});
   @override
   _SendCommentState createState() => _SendCommentState();
@@ -59,6 +61,8 @@ class _SendCommentState extends State<SendComment> {
     SizeConfig(context: context);
     final foodInfoProv = Provider.of<FoodInfoProvider>(context);
     final userInfoProv = Provider.of<UserInfoProvider>(context);
+    final _userId = userInfoProv.id;
+    final _foodId = foodInfoProv.id;
     return BlocConsumer(
       bloc: BlocProvider.of<CommentBloc>(context),
       builder: (context, state) => Stack(
@@ -211,13 +215,15 @@ class _SendCommentState extends State<SendComment> {
       ),
       listener: (context, state) {
         if (state is CommentLoading) {
+          // _commentController.dispose();
           showLoadingProgress(
-            context: context,
+            context: widget.cxt,
             key: _dialogKey,
           );
+          widget.popDialog();
         } else if (state is CommentError) {
           Navigator.pop(_dialogKey.currentContext);
-          widget.popDialog();
+
           showDialog(
               context: context,
               builder: (context) {
@@ -230,10 +236,17 @@ class _SendCommentState extends State<SendComment> {
               });
         } else if (state is CommentSuccess) {
           _commentController.clear();
+          widget.popDialog();
           Navigator.pop(_dialogKey.currentContext);
-          showFlushBar(context: context);
-          Future.delayed(Duration(seconds: 2), () {
-            widget.popDialog();
+
+          // BlocProvider.of<FoodDetailsBloc>(context).add(
+          //   GetFoodDetailsEvent(
+          //       fdReq: FoodDetailsReqModel(userId: _userId, foodId: _foodId)),
+          // );
+          // BlocProvider.of<CommentsBloc>(context).add(GetAllCommentsEvent(
+          //     commentsReq: CommentsReqModel(foodId: _foodId, userId: _userId)));
+          Future.delayed(Duration(seconds: 1), () {
+            showFlushBar(context: context);
           });
         }
       },

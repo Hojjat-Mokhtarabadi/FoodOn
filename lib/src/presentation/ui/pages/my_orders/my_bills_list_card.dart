@@ -28,8 +28,12 @@ class _BillCardState extends State<BillCard> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.push(context,
-            CupertinoPageRoute(builder: (context) => OrdersInfoPage()));
+        Navigator.push(
+            context,
+            CupertinoPageRoute(
+                builder: (context) => OrdersInfoPage(
+                      delId: widget.bill.deliveryId,
+                    )));
         BlocProvider.of<BillDetailsBloc>(context)
             .add(GetBillDetailsEvent(billId: widget.bill.id));
       },

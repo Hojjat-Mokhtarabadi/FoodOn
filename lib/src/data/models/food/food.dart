@@ -25,9 +25,7 @@ abstract class Food implements Built<Food, FoodBuilder> {
   int get categoryId;
   @nullable
   Category get category;
-
   Food._();
-
   factory Food([updates(FoodBuilder b)]) = _$Food;
 
   String toJson() {

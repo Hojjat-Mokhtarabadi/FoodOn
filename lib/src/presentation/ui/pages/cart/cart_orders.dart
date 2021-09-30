@@ -96,7 +96,7 @@ class _CartOrdersState extends State<CartOrders> {
                     widthFactor: 0.6,
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      '${widget.cartOrder.price / widget.cartOrder.count}00',
+                      '${(widget.cartOrder.price / widget.cartOrder.count).round()}00',
                       style: TextStyle(color: Colors.grey, fontSize: 15.0),
                       textAlign: TextAlign.center,
                     ),

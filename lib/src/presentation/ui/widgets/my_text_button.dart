@@ -12,7 +12,7 @@ class MyTextButton extends StatelessWidget {
     return TextButton(
       onPressed: this.onTap,
       style: TextButton.styleFrom(
-        padding: EdgeInsets.symmetric(horizontal: 50.0, vertical: 10.0),
+        padding: EdgeInsets.symmetric(horizontal: 54.0, vertical: 11.0),
         backgroundColor: kDarkerPrimaryColor,
         elevation: 6.0,
         shape: RoundedRectangleBorder(

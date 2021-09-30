@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:foodon/constants.dart';
 import 'package:foodon/src/data/models/bill/bill.dart';
 import 'package:foodon/src/data/models/cart/cart_order.dart';
 import 'package:foodon/src/data/models/cart/cart_orders_view.dart';
@@ -62,7 +63,7 @@ class _CartBodyState extends State<CartBody> {
               ],
             ),
             Divider(
-              thickness: 0.5,
+              thickness: 0.4,
               color: Colors.black,
               endIndent: 35.0,
               indent: 35.0,
@@ -75,6 +76,9 @@ class _CartBodyState extends State<CartBody> {
                   _totalPrice = _totalPrice + widget.orders[index].price;
                   _foodId = widget.orders[index].foodId;
                   _foodCount = widget.orders[index].count;
+                  print('in cart');
+                  print(widget.orders);
+                  print(_foodId);
                   return Padding(
                       padding:
                           EdgeInsets.symmetric(vertical: 7.0, horizontal: 30.0),
@@ -105,8 +109,16 @@ class _CartBodyState extends State<CartBody> {
                             },
                           ),
                           IconSlideAction(
-                            color: Colors.blue,
-                            icon: Icons.add,
+                            color: Colors.transparent,
+                            iconWidget: CircleAvatar(
+                              child: Icon(
+                                Icons.add,
+                                color: Colors.white,
+                                size: 25.0,
+                              ),
+                              backgroundColor: kPrimaryColor,
+                              //backgroundColor: Colors.transparent,
+                            ),
                             onTap: () {
                               Navigator.push(
                                 context,
@@ -145,7 +157,7 @@ class _CartBodyState extends State<CartBody> {
                       ));
                 }),
             Divider(
-              thickness: 0.5,
+              thickness: 0.4,
               color: Colors.black,
               endIndent: 35.0,
               indent: 35.0,
@@ -155,7 +167,7 @@ class _CartBodyState extends State<CartBody> {
         Positioned(
           bottom: 30.0,
           child: MyTextButton(
-            text: 'پــــرداخــت',
+            text: '  پـــــرداخـــت  ',
             onTap: () {
               // BlocProvider.of<ClearCartBloc>(context).add(ClearUserCartEvent(
               //     cartInfo: ClearCartInfo(cartId: cartInfoProv.cartId)));

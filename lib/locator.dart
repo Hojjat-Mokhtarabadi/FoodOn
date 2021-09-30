@@ -51,7 +51,7 @@ import 'package:http/http.dart' as http;
 import 'src/presentation/ui/pages/profile/blocs/user_info_bloc/user_info_bloc.dart';
 
 final locator = GetIt.instance;
-const kBaseUrl = "d9e0665f0578.ngrok.io";
+const kBaseUrl = "ea6c718d9dce.ngrok.io";
 const kHeader = {
   "Accept": "application/json",
   "content-type": "application/json"

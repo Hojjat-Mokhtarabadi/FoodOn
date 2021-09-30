@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodon/constants.dart';
@@ -11,7 +12,8 @@ import 'bill_orders_info_card.dart';
 Color kOrderItemsColor = Colors.grey.withOpacity(0.15);
 
 class OrdersInfoPage extends StatelessWidget {
-  OrdersInfoPage();
+  final int delId;
+  OrdersInfoPage({this.delId});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -113,6 +115,44 @@ class OrdersInfoPage extends StatelessWidget {
                                           ),
                                         ],
                                       ),
+                                    ),
+                                  ),
+                                  SizedBox(height: 35.0),
+                                  Container(
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Container(
+                                          margin: EdgeInsets.symmetric(
+                                              horizontal: 30.0),
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 5.0, vertical: 8.0),
+                                          child: Center(
+                                            child: Text(
+                                              'اطلاعات پیک',
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                          ),
+                                          width: double.infinity,
+                                          color: kPrimaryColor,
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.symmetric(
+                                              horizontal: 30.0),
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 5.0, vertical: 15.0),
+                                          color: kOrderItemsColor,
+                                          child: Row(
+                                            children: [
+                                              Text('شماره پیک: '),
+                                              Text('$delId')
+                                            ],
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                          ),
+                                        )
+                                      ],
                                     ),
                                   )
                                 ],

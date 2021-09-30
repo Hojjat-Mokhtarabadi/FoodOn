@@ -147,14 +147,14 @@ class _SignUpPageState extends State<SignUpPage> {
                                   iconData: FontAwesomeIcons.mobile,
                                   controller: _phoneController,
                                   type: TextInputType.phone,
-                                  //validator: validator.validatePhoneNumber,
+                                  validator: validator.validatePhoneNumber,
                                 ),
                                 SizedBox(height: kSizedBoxHeight),
                                 MyTextField(
                                   txt: 'رمـز عـبـور',
                                   iconData: FontAwesomeIcons.key,
                                   controller: _passController,
-                                  //validator: validator.validatePassword,
+                                  validator: validator.validatePassword,
                                 ),
                                 SizedBox(height: 80),
                                 Align(

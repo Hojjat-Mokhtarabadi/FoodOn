@@ -107,7 +107,8 @@ class _CartPageState extends State<CartPage> {
                                       Padding(
                                         padding: EdgeInsets.symmetric(
                                             vertical: 30.0),
-                                        child: Text('not found'),
+                                        child:
+                                            Text('سـبد خریـد شـما خـالی اسـت'),
                                       ),
                                     ],
                                   );

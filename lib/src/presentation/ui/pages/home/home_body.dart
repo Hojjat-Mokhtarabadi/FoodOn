@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:foodon/size_config.dart';
 import 'package:foodon/src/data/models/food/food.dart';
 import 'package:foodon/src/domain/entity/entity.dart';
 import 'package:foodon/src/domain/usecases/get_food_image_by_id.dart';
@@ -34,6 +35,7 @@ class _HomeBodyState extends State<HomeBody> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig(context: context);
     return BlocConsumer(
       bloc: BlocProvider.of<HomeBloc>(context),
       builder: (context, state) {
@@ -147,8 +149,9 @@ class _HomeBodyState extends State<HomeBody> {
                 }
               });
         } else if (state is HomeLoading) {
-          return Center(
-            child: CircularProgressIndicator(),
+          return Padding(
+            padding: EdgeInsets.only(bottom: 15),
+            child: Center(child: CircularProgressIndicator()),
           );
         }
         return Container();

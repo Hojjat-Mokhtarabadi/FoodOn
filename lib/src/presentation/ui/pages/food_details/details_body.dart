@@ -63,6 +63,7 @@ class _DetailsBodyState extends State<DetailsBody> {
       }
       if (e.comment.isNotEmpty) return e;
     }).toList();
+    filteredList = filteredList.reversed.toList();
     _orderNum = widget.orderNum;
   }
 
@@ -173,6 +174,7 @@ class _DetailsBodyState extends State<DetailsBody> {
                                 commentId: widget.commentId,
                                 commentText: commentText,
                                 initialRate: initialRate,
+                                cxt: context,
                                 popDialog: () {
                                   Navigator.pop(context);
                                 },
@@ -270,6 +272,7 @@ class _DetailsBodyState extends State<DetailsBody> {
                     : 'افــزودن بـه ســبد خــرید ',
                 onTap: () {
                   if (widget.foodExistsInCart) {
+                    print(_orderNum);
                     if (state is! SetCartOrderLoading)
                       BlocProvider.of<SetCartOrderBloc>(context).add(
                         PutCartOrderEvent(
