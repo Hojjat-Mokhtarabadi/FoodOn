@@ -46,7 +46,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   setupLocator();
-  //HttpOverrides.global = new MyHttpOverrides();
+  HttpOverrides.global = new MyHttpOverrides();
   runApp(MyApp());
 }
 
@@ -131,11 +131,13 @@ class _MyAppState extends State<MyApp> {
           theme: ThemeData(
               fontFamily: 'Vazir',
               visualDensity: VisualDensity.adaptivePlatformDensity,
-              primaryColor: kPrimaryColor,
+              colorScheme: ThemeData()
+                  .colorScheme
+                  .copyWith(primary: kPrimaryColor, secondary: kPrimaryColor),
               accentColor: kPrimaryColor),
           //---
           supportedLocales: [Locale('en', 'US'), Locale('fa', 'IR')],
-
+          debugShowCheckedModeBanner: false,
           home: Directionality(
               textDirection: TextDirection.rtl, child: LoginPage()),
           initialRoute: '/',

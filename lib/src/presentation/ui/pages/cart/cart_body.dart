@@ -1,26 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:foodon/constants.dart';
 import 'package:foodon/src/data/models/bill/bill.dart';
-import 'package:foodon/src/data/models/cart/cart_order.dart';
 import 'package:foodon/src/data/models/cart/cart_orders_view.dart';
 import 'package:foodon/src/domain/entity/entity.dart';
 import 'package:foodon/src/domain/usecases/clear_cart.dart';
-import 'package:foodon/src/domain/usecases/get_comments_scores_list.dart';
-import 'package:foodon/src/domain/usecases/get_food_details.dart';
 import 'package:foodon/src/presentation/ui/pages/cart/blocs/check_out_bloc/checkout_bloc.dart';
-import 'package:foodon/src/presentation/ui/pages/food_details/blocs/food_details_bloc/food_details_bloc.dart';
-import 'package:foodon/src/presentation/ui/pages/food_details/blocs/get_comments_bloc/get_comments_bloc.dart';
-import 'package:foodon/src/presentation/ui/pages/food_details/details_page.dart';
 import 'package:foodon/src/presentation/ui/widgets/my_text_button.dart';
 import 'package:foodon/src/presentation/utils/providers/cart_info.dart';
 import 'package:foodon/src/presentation/utils/providers/user_info.dart';
 import 'package:provider/provider.dart';
 
-import 'blocs/delete_cart_order/delete_cart_order_bloc.dart';
 import 'cart_orders.dart';
 
 class CartBody extends StatefulWidget {
@@ -77,84 +67,21 @@ class _CartBodyState extends State<CartBody> {
                   _foodId = widget.orders[index].foodId;
                   _foodCount = widget.orders[index].count;
                   print('in cart');
-                  print(widget.orders);
+                  // print(widget.orders);
                   print(_foodId);
+                  print(_foodCount);
                   return Padding(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 7.0, horizontal: 30.0),
-                      child: Slidable(
-                        actionPane: SlidableDrawerActionPane(),
-                        actionExtentRatio: 0.15,
-                        secondaryActions: <Widget>[
-                          IconSlideAction(
-                            color: Colors.transparent,
-                            // icon: Icons.delete,
-                            iconWidget: CircleAvatar(
-                              child: Icon(
-                                FontAwesomeIcons.solidTrashAlt,
-                                color: Colors.white,
-                                size: 20.0,
-                              ),
-                              backgroundColor: Colors.red,
-                              //backgroundColor: Colors.transparent,
-                            ),
-                            onTap: () {
-                              BlocProvider.of<DeleteCartOrderBloc>(context).add(
-                                DeleteSelectedOrderEvent(
-                                  order: CartOrder((c) => c
-                                    ..cartId = cartInfoProv.cartId
-                                    ..foodId = _foodId),
-                                ),
-                              );
-                            },
-                          ),
-                          IconSlideAction(
-                            color: Colors.transparent,
-                            iconWidget: CircleAvatar(
-                              child: Icon(
-                                Icons.add,
-                                color: Colors.white,
-                                size: 25.0,
-                              ),
-                              backgroundColor: kPrimaryColor,
-                              //backgroundColor: Colors.transparent,
-                            ),
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                CupertinoPageRoute(
-                                  builder: (context) => DetailsPage(
-                                    foodId: _foodId,
-                                    initialCount: _foodCount,
-                                    firebaseFileModel: widget.images[index],
-                                  ),
-                                ),
-                              );
-                              BlocProvider.of<CommentsBloc>(context).add(
-                                GetAllCommentsEvent(
-                                  commentsReq: CommentsReqModel(
-                                    foodId: _foodId,
-                                    userId: userInfoProv.id,
-                                  ),
-                                ),
-                              );
-                              BlocProvider.of<FoodDetailsBloc>(context).add(
-                                GetFoodDetailsEvent(
-                                  fdReq: FoodDetailsReqModel(
-                                    foodId: _foodId,
-                                    userId: userInfoProv.id,
-                                  ),
-                                ),
-                              );
-                            },
-                          )
-                        ],
-                        child: CartOrders(
-                          cartOrder: widget.orders[index],
-                          setBorder: true,
-                          onTap: () {},
-                        ),
-                      ));
+                    padding:
+                        EdgeInsets.symmetric(vertical: 7.0, horizontal: 30.0),
+                    child: CartOrders(
+                      cartOrder: widget.orders[index],
+                      foodId: widget.orders[index].foodId,
+                      foodCount: widget.orders[index].count,
+                      image: widget.images[index],
+                      setBorder: true,
+                      onTap: () {},
+                    ),
+                  );
                 }),
             Divider(
               thickness: 0.4,

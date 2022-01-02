@@ -14,8 +14,8 @@ import 'package:foodon/src/presentation/utils/providers/user_info.dart';
 import 'package:provider/provider.dart';
 
 class DetailsPage extends StatefulWidget {
-  final foodId;
-  final initialCount;
+  final int foodId;
+  final int initialCount;
   final FirebaseFileModel firebaseFileModel;
   DetailsPage({
     @required this.foodId,
@@ -71,7 +71,7 @@ class _DetailsPageState extends State<DetailsPage> {
                     builder: (context, foodState) {
                       if (foodState is FoodDetailsLoaded &&
                           commentState is CommentsLoaded) {
-                        print('here in f l cl');
+                        print(_orderNum);
                         return DetailsBody(
                           food: foodState.food.foodDetails,
                           firebaseFileModel: widget.firebaseFileModel,

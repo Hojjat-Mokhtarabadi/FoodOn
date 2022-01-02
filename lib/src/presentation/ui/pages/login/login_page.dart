@@ -114,7 +114,7 @@ class _LoginPageState extends State<LoginPage> {
                             //Spacer(),
                             SizedBox(height: 35.0),
                             MyTextField(
-                                txt: 'نام کـاربـری',
+                                txt: 'شماره موبایل',
                                 iconData: FontAwesomeIcons.userAlt,
                                 type: TextInputType.number,
                                 validator: validator.validateEmptyFields,

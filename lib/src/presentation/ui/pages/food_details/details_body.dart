@@ -65,6 +65,8 @@ class _DetailsBodyState extends State<DetailsBody> {
     }).toList();
     filteredList = filteredList.reversed.toList();
     _orderNum = widget.orderNum;
+    print("in d body");
+    print(_orderNum);
   }
 
   @override
@@ -128,6 +130,7 @@ class _DetailsBodyState extends State<DetailsBody> {
                           orderNumFunction: (num) {
                             _orderNum = num;
                           },
+                          initialCount: _orderNum,
                         ),
                         Spacer(),
                         Text(

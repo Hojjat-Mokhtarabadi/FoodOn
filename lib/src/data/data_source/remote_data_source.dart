@@ -184,6 +184,7 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   @override
   Future<PostSuccess> postNewUser(Customer customer) async {
     final String path = "api/Customer/PostUser";
+    print(Uri.https(baseUrl, path));
     final result = await client.post(Uri.https(baseUrl, path),
         body: customer.toJson(), headers: kHeader);
     if (result.statusCode == 200)

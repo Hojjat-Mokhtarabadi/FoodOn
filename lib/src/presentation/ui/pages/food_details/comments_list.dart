@@ -46,7 +46,8 @@ class CommentsListPage extends StatelessWidget {
                     Expanded(
                       child: ListView.builder(
                         //reverse: true,
-                        padding: EdgeInsets.all(25.0),
+                        padding: EdgeInsets.only(
+                            top: 25, left: 25, right: 25, bottom: 70),
                         itemCount: reversedCm.length,
                         itemBuilder: (context, index) => CommentCard(
                             commentView: reversedCm[index], showAll: true),

@@ -223,7 +223,6 @@ class _SendCommentState extends State<SendComment> {
           widget.popDialog();
         } else if (state is CommentError) {
           Navigator.pop(_dialogKey.currentContext);
-
           showDialog(
               context: context,
               builder: (context) {
