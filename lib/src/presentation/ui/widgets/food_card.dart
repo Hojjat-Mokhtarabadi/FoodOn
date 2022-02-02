@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:foodon/src/data/models/food/food.dart';
-import 'package:foodon/src/domain/entity/entity.dart';
 import 'package:foodon/src/domain/usecases/get_comments_scores_list.dart';
 import 'package:foodon/src/domain/usecases/get_food_details.dart';
 import 'package:foodon/src/presentation/ui/pages/food_details/blocs/food_details_bloc/food_details_bloc.dart';
@@ -18,11 +17,10 @@ import '../../../../constants.dart';
 
 class FoodCard extends StatelessWidget {
   final Food food;
-  final FirebaseFileModel foodPic;
+  final String imageBasePath = 'assets/images/food_images2/';
 
   FoodCard({
     @required this.food,
-    this.foodPic,
   });
   @override
   Widget build(BuildContext context) {
@@ -37,7 +35,6 @@ class FoodCard extends StatelessWidget {
             CupertinoPageRoute(
               builder: (context) => DetailsPage(
                 foodId: this.food.id,
-                firebaseFileModel: this.foodPic,
               ),
             ),
           );
@@ -107,8 +104,9 @@ class FoodCard extends StatelessWidget {
                                     0, 0, rect.width, rect.height));
                               },
                               blendMode: BlendMode.darken,
-                              child: Image.network(
-                                foodPic.url,
+                              child: Image.asset(
+                                // foodPic.url,
+                                "$imageBasePath${food.id}.jpg",
                                 fit: BoxFit.cover,
                               ),
                             ),

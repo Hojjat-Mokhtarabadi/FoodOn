@@ -21,7 +21,6 @@ class CartOrders extends StatefulWidget {
   final CartOrdersView cartOrder;
   final int foodId;
   final int foodCount;
-  final image;
   final VoidCallback onTap;
   final bool setBorder;
   final bool setTopRadius;
@@ -32,7 +31,6 @@ class CartOrders extends StatefulWidget {
       @required this.onTap,
       @required this.foodId,
       this.foodCount,
-      this.image,
       this.setBorder,
       this.setTopRadius,
       this.setDownRadius});
@@ -197,10 +195,7 @@ class _CartOrdersState extends State<CartOrders> {
                 context,
                 CupertinoPageRoute(
                   builder: (context) => DetailsPage(
-                    foodId: widget.foodId,
-                    initialCount: widget.foodCount,
-                    firebaseFileModel: widget.image,
-                  ),
+                      foodId: widget.foodId, initialCount: widget.foodCount),
                 ),
               );
               BlocProvider.of<CommentsBloc>(context).add(

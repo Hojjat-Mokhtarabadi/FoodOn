@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodon/src/data/models/cart/cart_order.dart';
 import 'package:foodon/src/data/models/food/comment_view.dart';
 import 'package:foodon/src/data/models/food/food.dart';
-import 'package:foodon/src/domain/entity/entity.dart';
 import 'package:foodon/src/domain/usecases/get_comments_scores_list.dart';
 import 'package:foodon/src/presentation/ui/pages/food_details/comment_card.dart';
 import 'package:foodon/src/presentation/ui/pages/food_details/comments_list.dart';
@@ -24,7 +23,6 @@ import 'blocs/post_order_bloc/post_order_bloc.dart';
 
 class DetailsBody extends StatefulWidget {
   final Food food;
-  final FirebaseFileModel firebaseFileModel;
   final int orderNum;
   final List<CommentView> commentsList;
   final bool found;
@@ -33,7 +31,6 @@ class DetailsBody extends StatefulWidget {
   final int commentId;
   DetailsBody({
     this.food,
-    this.firebaseFileModel,
     this.orderNum,
     this.commentsList,
     this.found,
@@ -52,6 +49,7 @@ class _DetailsBodyState extends State<DetailsBody> {
   List<CommentView> filteredList;
   String commentText = ' ';
   int initialRate = 3;
+  String imageBasePath = 'assets/images/food_images2/';
   @override
   void initState() {
     super.initState();
@@ -94,8 +92,9 @@ class _DetailsBodyState extends State<DetailsBody> {
                       borderRadius: BorderRadius.circular(10.0),
                       child: AspectRatio(
                         aspectRatio: 3 / 2,
-                        child: Image.network(
-                          widget.firebaseFileModel.url,
+                        child: Image.asset(
+                          // widget.firebaseFileModel.url,
+                          "$imageBasePath${widget.food.id}.jpg",
                           fit: BoxFit.cover,
                           //width: SizeConfig.w * 0.8,
                           //height: SizeConfig.h * 0.29,
@@ -276,6 +275,7 @@ class _DetailsBodyState extends State<DetailsBody> {
                 onTap: () {
                   if (widget.foodExistsInCart) {
                     print(_orderNum);
+                    print(_orderNum * widget.food.price);
                     if (state is! SetCartOrderLoading)
                       BlocProvider.of<SetCartOrderBloc>(context).add(
                         PutCartOrderEvent(

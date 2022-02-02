@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodon/src/data/models/bill/bill.dart';
 import 'package:foodon/src/data/models/cart/cart_orders_view.dart';
-import 'package:foodon/src/domain/entity/entity.dart';
 import 'package:foodon/src/domain/usecases/clear_cart.dart';
 import 'package:foodon/src/presentation/ui/pages/cart/blocs/check_out_bloc/checkout_bloc.dart';
 import 'package:foodon/src/presentation/ui/widgets/my_text_button.dart';
@@ -15,8 +14,7 @@ import 'cart_orders.dart';
 
 class CartBody extends StatefulWidget {
   final List<CartOrdersView> orders;
-  final List<FirebaseFileModel> images;
-  CartBody({this.orders, this.images});
+  CartBody({this.orders});
 
   @override
   _CartBodyState createState() => _CartBodyState();
@@ -77,7 +75,6 @@ class _CartBodyState extends State<CartBody> {
                       cartOrder: widget.orders[index],
                       foodId: widget.orders[index].foodId,
                       foodCount: widget.orders[index].count,
-                      image: widget.images[index],
                       setBorder: true,
                       onTap: () {},
                     ),

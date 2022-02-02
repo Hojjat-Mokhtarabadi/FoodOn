@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodon/size_config.dart';
 import 'package:foodon/src/data/models/food/food.dart';
-import 'package:foodon/src/domain/entity/entity.dart';
 import 'package:foodon/src/domain/usecases/get_food_image_by_id.dart';
 import 'package:foodon/src/domain/usecases/get_food_images.dart';
 import 'package:foodon/src/presentation/ui/pages/foods_list/blocs/foods_list_bloc/foods_list_bloc.dart';
@@ -40,114 +39,91 @@ class _HomeBodyState extends State<HomeBody> {
       bloc: BlocProvider.of<HomeBloc>(context),
       builder: (context, state) {
         if (state is HomeLoaded) {
-          List<int> ids = state.popularFoodsList.map((e) => e.id).toList();
-          return FutureBuilder<List<FirebaseFileModel>>(
-              future: fimages.getFoodImages('foodImages/'),
-              builder: (context, snapshot) {
-                switch (snapshot.connectionState) {
-                  case ConnectionState.waiting:
-                    {
-                      //BlocProvider.of<HomeBloc>(context).add(GetHomeItemsEvent());
-                      return Center(child: CircularProgressIndicator());
-                    }
-                  default:
-                    if (snapshot.hasError) {
-                      return Center(child: Text('Some error occurred!'));
-                    } else {
-                      final files = snapshot.data;
-                      return Container(
-                        //padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-                        child: Directionality(
-                          textDirection: TextDirection.rtl,
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 25.0),
-                                child: TopSearchBar(),
+          // List<int> ids = state.popularFoodsList.map((e) => e.id).toList();
+          return Container(
+            //padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+            child: Directionality(
+              textDirection: TextDirection.rtl,
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                    child: TopSearchBar(),
+                  ),
+                  SizedBox(
+                    height: 18.0,
+                  ),
+                  Expanded(
+                    child: CustomScrollView(
+                      //shrinkWrap: true,
+                      //physics: BouncingScrollPhysics(),
+                      slivers: [
+                        SliverToBoxAdapter(
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 15.0),
+                            child: Center(
+                              child: Wrap(
+                                direction: Axis.horizontal,
+                                spacing: 15.0,
+                                children: state.categoriesList.map((e) {
+                                  String path = '';
+                                  switch (e.id) {
+                                    case 1:
+                                      path = 'kebab/';
+                                      break;
+                                    case 2:
+                                      path = 'sandwich/';
+                                      break;
+                                    case 3:
+                                      path = 'salad/';
+                                      break;
+                                    case 4:
+                                      path = 'traditional/';
+                                      break;
+                                    default:
+                                      path = '';
+                                  }
+                                  return CategoryItems(
+                                    categoryText: e.categoryName,
+                                    categId: e.id,
+                                    path: path,
+                                  );
+                                }).toList(),
                               ),
-                              SizedBox(
-                                height: 18.0,
-                              ),
-                              Expanded(
-                                child: CustomScrollView(
-                                  //shrinkWrap: true,
-                                  //physics: BouncingScrollPhysics(),
-                                  slivers: [
-                                    SliverToBoxAdapter(
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 15.0),
-                                        child: Center(
-                                          child: Wrap(
-                                            direction: Axis.horizontal,
-                                            spacing: 15.0,
-                                            children:
-                                                state.categoriesList.map((e) {
-                                              String path = '';
-                                              switch (e.id) {
-                                                case 1:
-                                                  path = 'kebab/';
-                                                  break;
-                                                case 2:
-                                                  path = 'sandwich/';
-                                                  break;
-                                                case 3:
-                                                  path = 'salad/';
-                                                  break;
-                                                case 4:
-                                                  path = 'traditional/';
-                                                  break;
-                                                default:
-                                                  path = '';
-                                              }
-                                              return CategoryItems(
-                                                categoryText: e.categoryName,
-                                                categId: e.id,
-                                                path: path,
-                                              );
-                                            }).toList(),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    SliverToBoxAdapter(
-                                        child: _buildShowMore('غذاهای محبوب',
-                                            GetPopularFoodsListEvent())),
-                                    _buildFoodsList(
-                                        foods: state.popularFoodsList,
-                                        foodImage: files),
-                                    SliverPadding(
-                                      padding: EdgeInsets.only(
-                                          top: kSliverListTopDownPadding),
-                                      sliver: SliverToBoxAdapter(
-                                        child: Divider(
-                                          color: Colors.grey.withOpacity(0.8),
-                                          thickness: 0.5,
-                                          indent: 30.0,
-                                          endIndent: 30.0,
-                                        ),
-                                      ),
-                                    ),
-                                    SliverToBoxAdapter(
-                                        child: _buildShowMore('پیشنهاد ویژه',
-                                            GetSpecialFoodsListEvent())),
-                                    _buildFoodsList(
-                                        foods: state.specialFoodsList,
-                                        foodImage: files),
-                                  ],
-                                ),
-                              ),
-                              // SizedBox(
-                              //   height: 20.0,
-                              // )
-                            ],
+                            ),
                           ),
                         ),
-                      );
-                    }
-                }
-              });
+                        SliverToBoxAdapter(
+                            child: _buildShowMore(
+                                'غذاهای محبوب', GetPopularFoodsListEvent())),
+                        _buildFoodsList(foods: state.popularFoodsList),
+                        SliverPadding(
+                          padding:
+                              EdgeInsets.only(top: kSliverListTopDownPadding),
+                          sliver: SliverToBoxAdapter(
+                            child: Divider(
+                              color: Colors.grey.withOpacity(0.8),
+                              thickness: 0.5,
+                              indent: 30.0,
+                              endIndent: 30.0,
+                            ),
+                          ),
+                        ),
+                        SliverToBoxAdapter(
+                            child: _buildShowMore(
+                                'پیشنهاد ویژه', GetSpecialFoodsListEvent())),
+                        _buildFoodsList(foods: state.specialFoodsList),
+                      ],
+                    ),
+                  ),
+                  // SizedBox(
+                  //   height: 20.0,
+                  // )
+                ],
+              ),
+            ),
+          );
         } else if (state is HomeLoading) {
           return Padding(
             padding: EdgeInsets.only(bottom: 15),
@@ -204,8 +180,7 @@ class _HomeBodyState extends State<HomeBody> {
     );
   }
 
-  SliverToBoxAdapter _buildFoodsList(
-      {List<Food> foods, List<FirebaseFileModel> foodImage}) {
+  SliverToBoxAdapter _buildFoodsList({List<Food> foods}) {
     return SliverToBoxAdapter(
       child: Container(
         height: 200,
@@ -219,7 +194,6 @@ class _HomeBodyState extends State<HomeBody> {
           itemBuilder: (context, index) {
             return FoodCard(
               food: foods[index],
-              foodPic: foodImage[index],
             );
           },
         ),
@@ -227,3 +201,94 @@ class _HomeBodyState extends State<HomeBody> {
     );
   }
 }
+
+// Container(
+// //padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+// child: Directionality(
+// textDirection: TextDirection.rtl,
+// child: Column(
+// children: [
+// Padding(
+// padding: const EdgeInsets.symmetric(
+// horizontal: 25.0),
+// child: TopSearchBar(),
+// ),
+// SizedBox(
+// height: 18.0,
+// ),
+// Expanded(
+// child: CustomScrollView(
+// //shrinkWrap: true,
+// //physics: BouncingScrollPhysics(),
+// slivers: [
+// SliverToBoxAdapter(
+// child: Padding(
+// padding: const EdgeInsets.symmetric(
+// horizontal: 15.0),
+// child: Center(
+// child: Wrap(
+// direction: Axis.horizontal,
+// spacing: 15.0,
+// children:
+// state.categoriesList.map((e) {
+// String path = '';
+// switch (e.id) {
+// case 1:
+// path = 'kebab/';
+// break;
+// case 2:
+// path = 'sandwich/';
+// break;
+// case 3:
+// path = 'salad/';
+// break;
+// case 4:
+// path = 'traditional/';
+// break;
+// default:
+// path = '';
+// }
+// return CategoryItems(
+// categoryText: e.categoryName,
+// categId: e.id,
+// path: path,
+// );
+// }).toList(),
+// ),
+// ),
+// ),
+// ),
+// SliverToBoxAdapter(
+// child: _buildShowMore('غذاهای محبوب',
+// GetPopularFoodsListEvent())),
+// _buildFoodsList(
+// foods: state.popularFoodsList,
+// foodImage: files),
+// SliverPadding(
+// padding: EdgeInsets.only(
+// top: kSliverListTopDownPadding),
+// sliver: SliverToBoxAdapter(
+// child: Divider(
+// color: Colors.grey.withOpacity(0.8),
+// thickness: 0.5,
+// indent: 30.0,
+// endIndent: 30.0,
+// ),
+// ),
+// ),
+// SliverToBoxAdapter(
+// child: _buildShowMore('پیشنهاد ویژه',
+// GetSpecialFoodsListEvent())),
+// _buildFoodsList(
+// foods: state.specialFoodsList,
+// foodImage: files),
+// ],
+// ),
+// ),
+// // SizedBox(
+// //   height: 20.0,
+// // )
+// ],
+// ),
+// ),
+// );

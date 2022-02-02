@@ -59,6 +59,7 @@ flutter:
     - assets/images/icons/
     - assets/images/icons_png/
     - assets/images/profile_icons/
+    - assets/images/food_images2/
 
   fonts:
     - family: Vazir

@@ -75,31 +75,9 @@ class _CartPageState extends State<CartPage> {
                                   List<int> ids = state.orders
                                       .map((e) => e.foodId)
                                       .toList();
-                                  return FutureBuilder(
-                                      future: foodImageById.getFoodImageById(
-                                          'foodImages/', ids),
-                                      builder: (context, snapshot) {
-                                        switch (snapshot.connectionState) {
-                                          case ConnectionState.waiting:
-                                            return Center(
-                                                child:
-                                                    CircularProgressIndicator());
-
-                                          default:
-                                            if (snapshot.hasError) {
-                                              return Center(
-                                                child: Text(
-                                                    'Some error occurred!'),
-                                              );
-                                            } else {
-                                              final files = snapshot.data;
-                                              return CartBody(
-                                                orders: state.orders,
-                                                images: files,
-                                              );
-                                            }
-                                        }
-                                      });
+                                  return CartBody(
+                                    orders: state.orders,
+                                  );
                                 } else if (state is OrdersListNotFound) {
                                   return Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
