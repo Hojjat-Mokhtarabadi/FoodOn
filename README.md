@@ -1,3 +1,3 @@
 # FoodOn
 
-A online food shopping application.
+An online food shopping application.
